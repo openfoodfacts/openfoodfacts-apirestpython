@@ -27,11 +27,9 @@ This piece of software’s main goals are :
 Simple filter : `/products?origins=United Kingdom` <br/>
 Complex filter : `/products?nutrition_grade_fr=a&origins=United Kingdom` <br/>
 
-For arrays, a “.” will be used as a separator like so : <br/>
-`/products?nutrient_levels.salt=low`
+For arrays, a “.” will be used as a separator like so : `/products?nutrient_levels.salt=low`
 
-Searchs can be inexact like : <br/>
-`/products?ingredients_text=beef`<br/>
+Searchs can be inexact like :`/products?ingredients_text=beef`<br/>
 It will retrieve tags like “beef braising steak”, “beef steak”...
 
 /!\ By default the objects will be sorted by `complete` in order to have the most important objects first
