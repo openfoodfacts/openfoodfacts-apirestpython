@@ -2,10 +2,13 @@
 
 API in python for Open Food Facts
 
-### What is this repository for? ###
+## What is this repository for? 
 
-* Quick summary
-* Version
+This piece of software’s main goals are :
+* To make it easy to retrieve data using HTTP requests
+* To provide filters in the API
+* To provide custom filters
+
 
 ## Setup for localhost
 
