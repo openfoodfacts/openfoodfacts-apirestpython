@@ -1,6 +1,6 @@
 # Open Food Facts API Rest Python #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+API in python for Open Food Facts
 
 ### What is this repository for? ###
 
