@@ -7,14 +7,21 @@ This README would normally document whatever steps are necessary to get your app
 * Quick summary
 * Version
 
-## Setup
+## Setup for localhost
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+* Install python 3
+* Install mongodb
+* Install pip
+* Install requirements : 
+    $ pip install -r requirements.txt
+* Download the database from : http://world.openfoodfacts.org/data/openfoodfacts-mongodbdump.tar.gz
+* Import to local mongodb : 
+    $ mongorestore -d off -c products /foldertodump/products.bson
+* Launch api : 
+    $ python3 runApiRESTServer.py 
+* That's all !
+
+## Documentation
 
 ## Creators
 
