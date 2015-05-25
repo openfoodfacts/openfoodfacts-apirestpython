@@ -22,6 +22,7 @@ This piece of software’s main goals are :
 * That's all !
 
 ## Documentation
+### How to use it?
 
 Simple filter : `/products?origins=United Kingdom` <br/>
 Complex filter : `/products?nutrition_grade_fr=a&origins=United Kingdom` <br/>
@@ -45,7 +46,7 @@ q    =        | none             | search text on indexed fields
 
 ### Indexed fields
 
-TO DO
+Some fields are described here : http://world.openfoodfacts.org/data/data-fields.txt 
 
 ## Creators
 
