@@ -15,16 +15,37 @@ This piece of software’s main goals are :
 * Install python 3
 * Install mongodb
 * Install pip
-* Install requirements : 
-    $ pip install -r requirements.txt
+* Install requirements : `$ pip install -r requirements.txt`
 * Download the database from : http://world.openfoodfacts.org/data/openfoodfacts-mongodbdump.tar.gz
-* Import to local mongodb : 
-    $ mongorestore -d off -c products /foldertodump/products.bson
-* Launch api : 
-    $ python3 runApiRESTServer.py 
+* Import to local mongodb : `$ mongorestore -d off -c products /foldertodump/products.bson`
+* Launch api : `$ python3 runApiRESTServer.py`
 * That's all !
 
 ## Documentation
+
+Simple filter : `/products?origins=United Kingdom`
+Complex filter : `/products?nutrition_grade_fr=a&origins=United Kingdom`
+
+For arrays, a “.” will be used as a separator like so :
+`/products?nutrient_levels.salt=low`
+
+Searchs can be inexact like :
+`/products?ingredients_text=beef`
+It will retrieve tags like “beef braising steak”, “beef steak”...
+
+/!\ By default the objects will be sorted by `complete` in order to have the most important objects first
+
+Field         | Value by default | Value type
+------------- | ---------------- | ---------
+limit=        | 50               | limit the number of products returned
+skip=         | 0                | skips the specified number of products returned
+count=        | 0                | if 1 then returns the number of rows
+short=        | 0                | Filters rows retrieved, make it faster for lists for example, if 1 columns projection on `code`, `lang` and `product_name`
+q    =        | none             | search text on indexed fields
+
+### Indexed fields
+
+TO DO
 
 ## Creators
 
