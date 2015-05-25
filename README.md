@@ -17,7 +17,7 @@ This piece of software’s main goals are :
 * Install pip
 * Install requirements : `$ pip install -r requirements.txt`
 * Download the database from : http://world.openfoodfacts.org/data/openfoodfacts-mongodbdump.tar.gz
-* Import to local mongodb : `$ mongorestore -d off -c products /foldertodump/products.bson`
+* Import to local mongodb : `$ mongorestore -d off -c products /foldertobsonfile/products.bson`
 * Launch api : `$ python3 runApiRESTServer.py`
 * That's all !
 
