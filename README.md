@@ -1,6 +1,8 @@
 # Open Food Facts API Rest Python #
 
-API in python for Open Food Facts
+API in python for Open Food Facts <br/>
+To try the API : https://offapi.herokuapp.com/ <br/>
+Or if you want to try in localhost, see below.
 
 ## What is this repository for? 
 
