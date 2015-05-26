@@ -8,12 +8,12 @@ from bson.json_util import dumps
 # ----- Define MongoDB variables -----
 MONGO_URL = os.environ.get('MONGO_URL')
 if not MONGO_URL:
-    MONGO_URL = "mongodb://itchix:jakarta@ds037272.mongolab.com:37272/offapi";
+    MONGO_URL = "mongodb://localhost:27017/off";
 
 app = Flask(__name__)
 
 app.config['MONGO_URI'] = MONGO_URL
-app.config['MONGO_DBNAME'] = 'offapi'
+app.config['MONGO_DBNAME'] = 'off'
 mongo = PyMongo(app)
 
 # ----- Output JSON function -----
