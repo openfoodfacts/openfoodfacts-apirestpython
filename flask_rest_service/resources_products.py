@@ -5,6 +5,7 @@ from flask.ext import restful
 from flask.ext.restful import reqparse
 from flask_rest_service import app, api, mongo
 from bson.objectid import ObjectId
+from bson.code import Code
 
 # ----- /products -----
 class ProductsList(restful.Resource):
@@ -76,6 +77,46 @@ class ProductId(restful.Resource):
         return  mongo.db.products.find_one({"id":product_id})
 
 
+# ----- /products/brands -----
+class ProductsBrands(restful.Resource):
+
+    # ----- GET Request -----
+    def get(self):
+        # ----- Get count # in the request, 0 by default -----
+        count = request.args.get('count',default=0, type=int)
+        query = request.args.get('query')
+
+        if request.args.get('query'):
+            map = Code("function () {"
+                        "   if (!this.brands) return;"
+                        "   emit(this.brands.trim(), 1);"
+                        "};")
+
+            reduce = Code("function (key, values) {"
+                        "   var count = 0;"
+                        "       for (index in values) {"
+                        "           count += values[index];"
+                        "       }"
+                        "       return count;"    
+                        "   };")
+
+            result = mongo.db.products.map_reduce(map, reduce, "brands_products")
+
+            res = []
+            for doc in result.find({"_id": {'$regex' : query, '$options' : '-i'}}):
+                res.append(doc['_id'])
+            if request.args.get('count') and count == 1:
+                return len(res)
+            else:
+                return res
+        else:
+            if request.args.get('count') and count == 1:
+                return  len(mongo.db.products.distinct('brands'))
+            else:
+                return  mongo.db.products.distinct('brands')
+            
+
+
 # ----- / returns status OK and the MongoDB instance if the API is running -----
 class Root(restful.Resource):
 
@@ -89,4 +130,5 @@ class Root(restful.Resource):
 
 api.add_resource(Root, '/')
 api.add_resource(ProductsList, '/products')
+api.add_resource(ProductsBrands, '/products/brands')
 api.add_resource(ProductId, '/product/<string:product_id>')

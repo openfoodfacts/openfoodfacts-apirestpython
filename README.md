@@ -44,6 +44,10 @@ count=        | 0                | if 1 then returns the number of rows
 short=        | 0                | Filters rows retrieved, make it faster for lists for example, if 1 columns projection on `code`, `lang` and `product_name`
 q    =        | none             | search text on indexed fields
 
+* List brands : `/products/brands` <br/>
+  If you want to know how many brands there is in the list you have just to do a request like that : 
+  `/products/brands?count=1`. If you want to query brands, to do for example an autocomplete field in ajax, query the API like : `/products/brands?query=Auch` or `/products/brands?query=Sains`. Add `...&count=1` to get the number of rows.
+
 ### Indexed fields
 
 Some fields are described here : http://world.openfoodfacts.org/data/data-fields.txt 
