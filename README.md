@@ -45,7 +45,7 @@ short=        | 0                | Filters rows retrieved, make it faster for li
 q    =        | none             | search text on indexed fields
 
 * List brands : `/products/brands` <br/>
-  If you want to know how many brands there is in the list you have just to do a request like that : 
+  If you want to know how many brands there are in the list you have just to do a request like that : 
   `/products/brands?count=1`. If you want to query brands, to do for example an autocomplete field in ajax, query the API like : `/products/brands?query=Auch` or `/products/brands?query=Sains`. Add `...&count=1` to get the number of rows.
 
 ### Indexed fields
