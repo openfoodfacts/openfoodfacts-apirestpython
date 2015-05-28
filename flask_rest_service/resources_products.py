@@ -50,20 +50,20 @@ class ProductsList(restful.Resource):
         fieldsNeeded = {'code':1, 'lang':1, 'product_name':1}
         if request.args.get('short') and short == 1:
             if request.args.get('count') and count == 1 and not request.args.get('q'):
-                return mongo.db.products.find(data, fieldsNeeded).sort('created_t', pymongo.DESCENDING).skip(skip).limit(limit).count()
+                return mongo.db.products.find(data, fieldsNeeded).count()
             elif not request.args.get('count') and not request.args.get('q'):
                 return mongo.db.products.find(data, fieldsNeeded).sort('created_t', pymongo.DESCENDING).skip(skip).limit(limit)
             elif request.args.get('count') and count == 1 and request.args.get('q'):
-                return mongo.db.products.find({ "$text" : { "$search": query } }, fieldsNeeded).sort('created_t', pymongo.DESCENDING).skip(skip).limit(limit).count()
+                return mongo.db.products.find({ "$text" : { "$search": query } }, fieldsNeeded).count()
             else:
                 return mongo.db.products.find({ "$text" : { "$search": query } }, fieldsNeeded).sort('created_t', pymongo.DESCENDING).skip(skip).limit(limit)
         else:
             if request.args.get('count') and count == 1 and not request.args.get('q'):
-                return mongo.db.products.find(data).sort('created_t', pymongo.DESCENDING).skip(skip).limit(limit).count()
+                return mongo.db.products.find(data).count()
             elif not request.args.get('count') and not request.args.get('q'):
                 return mongo.db.products.find(data).sort('created_t', pymongo.DESCENDING).skip(skip).limit(limit)
             elif request.args.get('count') and count == 1 and request.args.get('q'):
-                return mongo.db.products.find({ "$text" : { "$search": query } }).sort('created_t', pymongo.DESCENDING).skip(skip).limit(limit).count()
+                return mongo.db.products.find({ "$text" : { "$search": query } }).count()
             else:
                 return mongo.db.products.find({ "$text" : { "$search": query } }).sort('created_t', pymongo.DESCENDING).skip(skip).limit(limit)
                
