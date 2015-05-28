@@ -50,31 +50,30 @@ class ProductsList(restful.Resource):
         fieldsNeeded = {'code':1, 'lang':1, 'product_name':1}
         if request.args.get('short') and short == 1:
             if request.args.get('count') and count == 1 and not request.args.get('q'):
-                return mongo.db.products.find(data, fieldsNeeded).sort('complete', pymongo.DESCENDING).skip(skip).limit(limit).count()
+                return mongo.db.products.find(data, fieldsNeeded).sort('created_t', pymongo.DESCENDING).skip(skip).limit(limit).count()
             elif not request.args.get('count') and not request.args.get('q'):
-                return mongo.db.products.find(data, fieldsNeeded).sort('comple', pymongo.DESCENDING).skip(skip).limit(limit)
+                return mongo.db.products.find(data, fieldsNeeded).sort('created_t', pymongo.DESCENDING).skip(skip).limit(limit)
             elif request.args.get('count') and count == 1 and request.args.get('q'):
-                return mongo.db.products.find({ "$text" : { "$search": query } }, fieldsNeeded).sort('complete', pymongo.DESCENDING).skip(skip).limit(limit).count()
+                return mongo.db.products.find({ "$text" : { "$search": query } }, fieldsNeeded).sort('created_t', pymongo.DESCENDING).skip(skip).limit(limit).count()
             else:
-                return mongo.db.products.find({ "$text" : { "$search": query } }, fieldsNeeded).sort('complete', pymongo.DESCENDING).skip(skip).limit(limit)
+                return mongo.db.products.find({ "$text" : { "$search": query } }, fieldsNeeded).sort('created_t', pymongo.DESCENDING).skip(skip).limit(limit)
         else:
             if request.args.get('count') and count == 1 and not request.args.get('q'):
-                return mongo.db.products.find(data).sort('complete', pymongo.DESCENDING).skip(skip).limit(limit).count()
+                return mongo.db.products.find(data).sort('created_t', pymongo.DESCENDING).skip(skip).limit(limit).count()
             elif not request.args.get('count') and not request.args.get('q'):
-                return mongo.db.products.find(data).sort('complete', pymongo.DESCENDING).skip(skip).limit(limit)
+                return mongo.db.products.find(data).sort('created_t', pymongo.DESCENDING).skip(skip).limit(limit)
             elif request.args.get('count') and count == 1 and request.args.get('q'):
-                return mongo.db.products.find({ "$text" : { "$search": query } }).sort('complete', pymongo.DESCENDING).skip(skip).limit(limit).count()
+                return mongo.db.products.find({ "$text" : { "$search": query } }).sort('created_t', pymongo.DESCENDING).skip(skip).limit(limit).count()
             else:
-                return mongo.db.products.find({ "$text" : { "$search": query } }).sort('complete', pymongo.DESCENDING).skip(skip).limit(limit)
+                return mongo.db.products.find({ "$text" : { "$search": query } }).sort('created_t', pymongo.DESCENDING).skip(skip).limit(limit)
                
 
 # ----- /product/<product_id> -----
 class ProductId(restful.Resource):
 
     # ----- GET Request -----
-    def get(self, product_id):
-        product_id = product_id.replace('-','/')
-        return  mongo.db.products.find_one({"id":product_id})
+    def get(self, barcode):
+        return  mongo.db.products.find_one({"code":barcode})
 
 
 # ----- /products/brands -----
@@ -131,4 +130,4 @@ class Root(restful.Resource):
 api.add_resource(Root, '/')
 api.add_resource(ProductsList, '/products')
 api.add_resource(ProductsBrands, '/products/brands')
-api.add_resource(ProductId, '/product/<string:product_id>')
+api.add_resource(ProductId, '/product/<string:barcode>')

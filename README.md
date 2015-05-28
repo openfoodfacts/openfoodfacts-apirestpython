@@ -34,7 +34,7 @@ For arrays, a “.” will be used as a separator like so : `/products?nutrient_
 Searchs can be inexact like :`/products?ingredients_text=beef`<br/>
 It will retrieve tags like “beef braising steak”, “beef steak”...
 
-/!\ By default the objects will be sorted by `complete` in order to have the most important objects first
+/!\ By default the objects will be sorted by `created_t` in order to have the most important objects first
 
 Field         | Value by default | Value type
 ------------- | ---------------- | ---------
