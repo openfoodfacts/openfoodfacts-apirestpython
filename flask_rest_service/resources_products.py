@@ -113,6 +113,45 @@ class ProductsBrands(restful.Resource):
                 return  len(mongo.db.products.distinct('brands'))
             else:
                 return  mongo.db.products.distinct('brands')
+
+
+# ----- /products/categories -----
+class ProductsCategories(restful.Resource):
+
+    # ----- GET Request -----
+    def get(self):
+        # ----- Get count # in the request, 0 by default -----
+        count = request.args.get('count',default=0, type=int)
+        query = request.args.get('query')
+
+        if request.args.get('query'):
+            map = Code("function () {"
+                        "   if (!this.categories) return;"
+                        "   emit(this.categories.trim(), 1);"
+                        "};")
+
+            reduce = Code("function (key, values) {"
+                        "   var count = 0;"
+                        "       for (index in values) {"
+                        "           count += values[index];"
+                        "       }"
+                        "       return count;"    
+                        "   };")
+
+            result = mongo.db.products.map_reduce(map, reduce, "categories_products")
+
+            res = []
+            for doc in result.find({"_id": {'$regex' : query, '$options' : '-i'}}):
+                res.append(doc['_id'])
+            if request.args.get('count') and count == 1:
+                return len(res)
+            else:
+                return res
+        else:
+            if request.args.get('count') and count == 1:
+                return  len(mongo.db.products.distinct('categories'))
+            else:
+                return  mongo.db.products.distinct('categories')
             
 
 
@@ -129,5 +168,6 @@ class Root(restful.Resource):
 
 api.add_resource(Root, '/')
 api.add_resource(ProductsList, '/products')
-api.add_resource(ProductsBrands, '/products/brands')
 api.add_resource(ProductId, '/product/<string:barcode>')
+api.add_resource(ProductsBrands, '/products/brands')
+api.add_resource(ProductsCategories, '/products/categories')
