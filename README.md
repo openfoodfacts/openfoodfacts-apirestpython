@@ -42,16 +42,13 @@ count=        | 0                | if 1 then returns the number of rows
 short=        | 0                | Filters rows retrieved, make it faster for lists for example, if 1 columns projection on `code`, `lang` and `product_name`
 q    =        | none             | search text on indexed fields
 
-* Get a product by barcode :  `/product/737628064502` <br/>
-* List brands : `/products/brands` <br/>
-  If you want to know how many brands there are in the list you have just to do a request like that : 
-  `/products/brands?count=1`. If you want to query brands, to do for example an autocomplete field in ajax, query the API like : `/products/brands?query=Auch` or `/products/brands?query=Sains`. Add `...&count=1` to get the number of rows.
-* List categories : `/products/categories` <br/>
-  If you want to know how many categories there are in the list you have just to do a request like that : 
-  `/products/categories?count=1`. If you want to query categories, to do for example an autocomplete field in ajax, query the API like : `/products/categories?query=Ric` or `/products/categories?query=plant`. Add `...&count=1` to get the number of rows.
-* List countries : `/products/countries` <br/>
-  If you want to know how many countries there are in the list you have just to do a request like that : 
-  `/products/countries?count=1`. If you want to query countries, to do for example an autocomplete field in ajax, query the API like : `/products/countries?query=Fra` or `/products/countries?query=Aus`. Add `...&count=1` to get the number of rows.
+URL to query                   | Description
+------------------------------ | ---------------------------
+`/product/737628064502`        | Get a product by barcode 
+`/products/brands`             | If you want to know how many brands there are in the list you have just to do a request like that : `/products/brands?count=1`. If you want to query brands, to do for example an autocomplete field in ajax, query the API like : `/products/brands?query=Auch` or `/products/brands?query=Sains`. Add `...&count=1` to get the number of rows.
+`/products/categories`         | If you want to know how many categories there are in the list you have just to do a request like that : `/products/categories?count=1`. If you want to query categories, to do for example an autocomplete field in ajax, query the API like : `/products/categories?query=Ric` or `/products/categories?query=plant`. Add `...&count=1` to get the number of rows.
+`/products/countries`          | If you want to know how many countries there are in the list you have just to do a request like that : `/products/countries?count=1`. If you want to query countries, to do for example an autocomplete field in ajax, query the API like : `/products/countries?query=Fra` or `/products/countries?query=Aus`. Add `...&count=1` to get the number of rows.
+  
 
 ### Indexed fields
 
