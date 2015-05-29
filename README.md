@@ -36,7 +36,7 @@ It will retrieve tags like “beef braising steak”, “beef steak”...
 
 URL to query                   | Description
 ------------------------------ | ---------------------------
-`/product/737628064502`        | Get a product by barcode 
+`/product/<barcode>`           | Get a product by barcode eg. `/product/737628064502`
 `/products/brands`             | If you want to know how many brands there are in the list you have just to do a request like that : `/products/brands?count=1`. If you want to query brands, to do for example an autocomplete field in ajax, query the API like : `/products/brands?query=Auch` or `/products/brands?query=Sains`. Add `...&count=1` to get the number of rows.
 `/products/categories`         | If you want to know how many categories there are in the list you have just to do a request like that : `/products/categories?count=1`. If you want to query categories, to do for example an autocomplete field in ajax, query the API like : `/products/categories?query=Ric` or `/products/categories?query=plant`. Add `...&count=1` to get the number of rows.
 `/products/countries`          | If you want to know how many countries there are in the list you have just to do a request like that : `/products/countries?count=1`. If you want to query countries, to do for example an autocomplete field in ajax, query the API like : `/products/countries?query=Fra` or `/products/countries?query=Aus`. Add `...&count=1` to get the number of rows.
