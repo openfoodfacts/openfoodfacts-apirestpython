@@ -34,14 +34,6 @@ It will retrieve tags like “beef braising steak”, “beef steak”...
 
 /!\ By default the objects will be sorted by `created_t` in order to have the most important objects first
 
-Field         | Value by default | Value type
-------------- | ---------------- | ---------
-limit=        | 50               | limit the number of products returned
-skip=         | 0                | skips the specified number of products returned
-count=        | 0                | if 1 then returns the number of rows
-short=        | 0                | Filters rows retrieved, make it faster for lists for example, if 1 columns projection on `code`, `lang` and `product_name`
-q    =        | none             | search text on indexed fields
-
 URL to query                   | Description
 ------------------------------ | ---------------------------
 `/product/737628064502`        | Get a product by barcode 
@@ -49,6 +41,15 @@ URL to query                   | Description
 `/products/categories`         | If you want to know how many categories there are in the list you have just to do a request like that : `/products/categories?count=1`. If you want to query categories, to do for example an autocomplete field in ajax, query the API like : `/products/categories?query=Ric` or `/products/categories?query=plant`. Add `...&count=1` to get the number of rows.
 `/products/countries`          | If you want to know how many countries there are in the list you have just to do a request like that : `/products/countries?count=1`. If you want to query countries, to do for example an autocomplete field in ajax, query the API like : `/products/countries?query=Fra` or `/products/countries?query=Aus`. Add `...&count=1` to get the number of rows.
 
+### Options
+
+Field         | Value by default | Value type
+------------- | ---------------- | ---------
+limit=        | 50               | limit the number of products returned
+skip=         | 0                | skips the specified number of products returned
+count=        | 0                | if 1 then returns the number of rows
+short=        | 0                | Filters rows retrieved, make it faster for lists for example, if 1 columns projection on `code`, `lang` and `product_name`
+q    =        | none             | search text on indexed fields
 
 ### Indexed fields
 
