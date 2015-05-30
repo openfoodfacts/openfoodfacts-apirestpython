@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Openfoodfacts-apirestpython by openfoodfacts</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Openfoodfacts-apirestpython</h1>
+      <h2 class="project-tagline">API for Open Food Facts</h2>
+      <a href="https://github.com/openfoodfacts/OpenFoodFacts-APIRestPython" class="btn">View on GitHub</a>
+      <a href="https://github.com/openfoodfacts/OpenFoodFacts-APIRestPython/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/openfoodfacts/OpenFoodFacts-APIRestPython/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="open-food-facts-api-rest-python" class="anchor" href="#open-food-facts-api-rest-python" aria-hidden="true"><span class="octicon octicon-link"></span></a>Open Food Facts API Rest Python</h1>
+
+<p>OFF API provides programmatic access to Open Food Facts functionality and content.<br></p>
+
+<p>To try the API : <a href="https://offapi.herokuapp.com/">https://offapi.herokuapp.com/</a> <br>
+Or if you want to try in localhost, see below.</p>
+
+<p>The API is <a href="http://en.wikipedia.org/wiki/Representational_State_Transfer" title="RESTful">REST API</a>.
+Currently, return format for all endpoints is <a href="http://json.org/" title="JSON">JSON</a>.</p>
+
+<h2>
+<a id="what-is-this-repository-for" class="anchor" href="#what-is-this-repository-for" aria-hidden="true"><span class="octicon octicon-link"></span></a>What is this repository for?</h2>
+
+<p>This piece of software’s main goals are :</p>
+
+<ul>
+<li>To make it easy to retrieve data using HTTP requests</li>
+<li>To provide filters in the API</li>
+<li>To provide custom filters</li>
+</ul>
+
+<h2>
+<a id="setup-for-localhost" class="anchor" href="#setup-for-localhost" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setup for localhost</h2>
+
+<ul>
+<li>Install python 3</li>
+<li>Install mongodb</li>
+<li>Install pip</li>
+<li>Install requirements : <code>$ pip install -r requirements.txt</code>
+</li>
+<li>Download the database from : <a href="http://world.openfoodfacts.org/data/openfoodfacts-mongodbdump.tar.gz">http://world.openfoodfacts.org/data/openfoodfacts-mongodbdump.tar.gz</a>
+</li>
+<li>Import to local mongodb : <code>$ mongorestore -d off -c products /foldertobsonfile/products.bson</code>
+</li>
+<li>Launch api : <code>$ python3 runApiRESTServer.py</code>
+</li>
+<li>That's all !</li>
+</ul>
+
+<h2>
+<a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Documentation</h2>
+
+<h3>
+<a id="how-to-use-it" class="anchor" href="#how-to-use-it" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to use it?</h3>
+
+<p>Simple filter : <code>/products?origins=United Kingdom</code> <br>
+Complex filter : <code>/products?nutrition_grade_fr=a&amp;origins=United Kingdom</code> <br>
+For arrays, a “.” will be used as a separator like so : <code>/products?nutrient_levels.salt=low</code>
+Searchs can be inexact like :<code>/products?ingredients_text=beef</code><br>
+It will retrieve tags like “beef braising steak”, “beef steak”...</p>
+
+<p>/!\ By default the objects will be sorted by <code>created_t</code> in order to have the most important objects first</p>
+
+<table>
+<thead>
+<tr>
+<th>URL to query</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>GET</code> <code>/product/&lt;barcode&gt;</code>
+</td>
+<td>Get a product by barcode eg. <code>/product/737628064502</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>GET</code> <code>/products/brands</code>
+</td>
+<td>If you want to know how many brands there are in the list you have just to do a request like that : <code>/products/brands?count=1</code>. If you want to query brands, to do for example an autocomplete field in ajax, query the API like : <code>/products/brands?query=Auch</code> or <code>/products/brands?query=Sains</code>.</td>
+</tr>
+<tr>
+<td>
+<code>GET</code> <code>/products/categories</code>
+</td>
+<td>If you want to know how many categories there are in the list you have just to do a request like that : <code>/products/categories?count=1</code>. If you want to query categories, to do for example an autocomplete field in ajax, query the API like : <code>/products/categories?query=Ric</code> or <code>/products/categories?query=plant</code>.</td>
+</tr>
+<tr>
+<td>
+<code>GET</code> <code>/products/countries</code>
+</td>
+<td>If you want to know how many countries there are in the list you have just to do a request like that : <code>/products/countries?count=1</code>. If you want to query countries, to do for example an autocomplete field in ajax, query the API like : <code>/products/countries?query=Fra</code> or <code>/products/countries?query=Aus</code>.</td>
+</tr>
+<tr>
+<td>
+<code>GET</code> <code>/products/additives</code>
+</td>
+<td>If you want to know how many additives there are in the list you have just to do a request like that : <code>/products/additives?count=1</code>. If you want to query additives, to do for example an autocomplete field in ajax, query the API like : <code>/products/additives?query=Citric</code> or <code>/products/additives?query=acid</code>.</td>
+</tr>
+<tr>
+<td>
+<code>GET</code> <code>/products/allergens</code>
+</td>
+<td>If you want to know how many allergens there are in the list you have just to do a request like that : <code>/products/allergens?count=1</code>. If you want to query allergens, to do for example an autocomplete field in ajax, query the API like : <code>/products/allergens?query=milk</code> or <code>/products/allergens?query=oil</code>.</td>
+</tr>
+</tbody>
+</table>
+
+<h3>
+<a id="options" class="anchor" href="#options" aria-hidden="true"><span class="octicon octicon-link"></span></a>Options</h3>
+
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value by default</th>
+<th>Value type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>limit=</td>
+<td>50</td>
+<td>limit the number of products returned</td>
+</tr>
+<tr>
+<td>skip=</td>
+<td>0</td>
+<td>skips the specified number of products returned</td>
+</tr>
+<tr>
+<td>count=</td>
+<td>0</td>
+<td>if 1 then returns the number of rows</td>
+</tr>
+<tr>
+<td>short=</td>
+<td>0</td>
+<td>Filters rows retrieved, make it faster for lists for example, if 1 columns projection on <code>code</code>, <code>lang</code> and <code>product_name</code>
+</td>
+</tr>
+<tr>
+<td>q    =</td>
+<td>none</td>
+<td>search text on indexed fields</td>
+</tr>
+</tbody>
+</table>
+
+<h3>
+<a id="indexed-fields" class="anchor" href="#indexed-fields" aria-hidden="true"><span class="octicon octicon-link"></span></a>Indexed fields</h3>
+
+<p>Some fields are described here : <a href="http://world.openfoodfacts.org/data/data-fields.txt">http://world.openfoodfacts.org/data/data-fields.txt</a> </p>
+
+<h3>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example</h3>
+
+<p><strong>Request</strong></p>
+
+<pre><code>GET /product/737628064502
+</code></pre>
+
+<p><strong>Return</strong></p>
+
+<div class="highlight highlight-json"><pre>{
+   <span class="pl-s"><span class="pl-pds">"</span>status_verbose<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>product found<span class="pl-pds">"</span></span>,
+   <span class="pl-s"><span class="pl-pds">"</span>status<span class="pl-pds">"</span></span>:<span class="pl-c1">1</span>,
+   <span class="pl-s"><span class="pl-pds">"</span>product<span class="pl-pds">"</span></span>:{
+      <span class="pl-s"><span class="pl-pds">"</span>last_edit_dates_tags<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>2012-12-11<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>2012-12<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>2012<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>labels_hierarchy<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>en:gluten-free<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>_id<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>737628064502<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>categories_hierarchy<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>en:Rice Noodles<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>pnns_groups_1<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>unknown<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>states_tags<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>en:to-be-checked<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>en:complete<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>en:nutrition-facts-completed<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>en:ingredients-completed<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>en:expiration-date-to-be-completed<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>en:characteristics-completed<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>en:photos-validated<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>en:photos-uploaded<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>checkers_tags<span class="pl-pds">"</span></span>:[
+
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>labels_tags<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>en:gluten-free<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>image_small_url<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>http://world.openfoodfacts.org/images/products/737/628/064/502/front.6.200.jpg<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>code<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>737628064502<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>additives_tags_n<span class="pl-pds">"</span></span>:<span class="pl-c1">null</span>,
+      <span class="pl-s"><span class="pl-pds">"</span>traces_tags<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>peanuts<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>lang<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>en<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>photographers<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>andre<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>generic_name<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>Rice Noodles<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>ingredients_that_may_be_from_palm_oil_tags<span class="pl-pds">"</span></span>:[
+
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>old_additives_tags<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>en:e330<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>_keywords<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>thailand<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>stir-fry<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>kitchen<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>thai<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>free<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>gluten<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>rice<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>noodle<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>rev<span class="pl-pds">"</span></span>:<span class="pl-c1">15</span>,
+      <span class="pl-s"><span class="pl-pds">"</span>editors<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>thierrym<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>manu1400<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>andre<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>interface_version_created<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>20120622<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>emb_codes<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>max_imgid<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>5<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>additives_tags<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>en:e330<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>emb_codes_orig<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>informers_tags<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>andre<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>manu1400<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>thierrym<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>nutrient_levels_tags<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>脂肪-in-moderate-quantity<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>饱和脂肪-in-low-quantity<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>糖-in-high-quantity<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>食盐-in-high-quantity<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>photographers_tags<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>andre<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>additives_n<span class="pl-pds">"</span></span>:<span class="pl-c1">1</span>,
+      <span class="pl-s"><span class="pl-pds">"</span>pnns_groups_2_tags<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>unknown<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>unknown_nutrients_tags<span class="pl-pds">"</span></span>:[
+
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>packaging_tags<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>cellophane<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>carton<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>nutriments<span class="pl-pds">"</span></span>:{
+         <span class="pl-s"><span class="pl-pds">"</span>sodium<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>0.629<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>sugars<span class="pl-pds">"</span></span>:<span class="pl-c1">10</span>,
+         <span class="pl-s"><span class="pl-pds">"</span>carbohydrates_unit<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>g<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>fat_unit<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>g<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>proteins_unit<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>g<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>nutrition-score-fr_100g<span class="pl-pds">"</span></span>:<span class="pl-c1">15</span>,
+         <span class="pl-s"><span class="pl-pds">"</span>fat<span class="pl-pds">"</span></span>:<span class="pl-c1">7</span>,
+         <span class="pl-s"><span class="pl-pds">"</span>proteins_serving<span class="pl-pds">"</span></span>:<span class="pl-c1">7</span>,
+         <span class="pl-s"><span class="pl-pds">"</span>sodium_serving<span class="pl-pds">"</span></span>:<span class="pl-c1">0.629</span>,
+         <span class="pl-s"><span class="pl-pds">"</span>salt<span class="pl-pds">"</span></span>:<span class="pl-c1">1.59766</span>,
+         <span class="pl-s"><span class="pl-pds">"</span>proteins<span class="pl-pds">"</span></span>:<span class="pl-c1">7</span>,
+         <span class="pl-s"><span class="pl-pds">"</span>nutrition-score-fr<span class="pl-pds">"</span></span>:<span class="pl-c1">15</span>,
+         <span class="pl-s"><span class="pl-pds">"</span>sugars_unit<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>g<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>fat_serving<span class="pl-pds">"</span></span>:<span class="pl-c1">7</span>,
+         <span class="pl-s"><span class="pl-pds">"</span>sodium_unit<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>mg<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>sugars_100g<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>12.8<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>saturated-fat_unit<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>g<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>sodium_100g<span class="pl-pds">"</span></span>:<span class="pl-c1">0.806</span>,
+         <span class="pl-s"><span class="pl-pds">"</span>saturated-fat_serving<span class="pl-pds">"</span></span>:<span class="pl-c1">1</span>,
+         <span class="pl-s"><span class="pl-pds">"</span>fiber_unit<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>g<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>energy<span class="pl-pds">"</span></span>:<span class="pl-c1">1297</span>,
+         <span class="pl-s"><span class="pl-pds">"</span>energy_unit<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>kcal<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>sugars_serving<span class="pl-pds">"</span></span>:<span class="pl-c1">10</span>,
+         <span class="pl-s"><span class="pl-pds">"</span>carbohydrates_100g<span class="pl-pds">"</span></span>:<span class="pl-c1">70.5</span>,
+         <span class="pl-s"><span class="pl-pds">"</span>nutrition-score-uk<span class="pl-pds">"</span></span>:<span class="pl-c1">15</span>,
+         <span class="pl-s"><span class="pl-pds">"</span>proteins_100g<span class="pl-pds">"</span></span>:<span class="pl-c1">8.97</span>,
+         <span class="pl-s"><span class="pl-pds">"</span>fiber_serving<span class="pl-pds">"</span></span>:<span class="pl-c1">0</span>,
+         <span class="pl-s"><span class="pl-pds">"</span>carbohydrates_serving<span class="pl-pds">"</span></span>:<span class="pl-c1">55</span>,
+         <span class="pl-s"><span class="pl-pds">"</span>energy_serving<span class="pl-pds">"</span></span>:<span class="pl-c1">1297</span>,
+         <span class="pl-s"><span class="pl-pds">"</span>fat_100g<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>8.97<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>saturated-fat_100g<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>1.28<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>nutrition-score-uk_100g<span class="pl-pds">"</span></span>:<span class="pl-c1">15</span>,
+         <span class="pl-s"><span class="pl-pds">"</span>fiber<span class="pl-pds">"</span></span>:<span class="pl-c1">0</span>,
+         <span class="pl-s"><span class="pl-pds">"</span>salt_serving<span class="pl-pds">"</span></span>:<span class="pl-c1">1.59766</span>,
+         <span class="pl-s"><span class="pl-pds">"</span>salt_100g<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>2.05<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>carbohydrates<span class="pl-pds">"</span></span>:<span class="pl-c1">55</span>,
+         <span class="pl-s"><span class="pl-pds">"</span>fiber_100g<span class="pl-pds">"</span></span>:<span class="pl-c1">0</span>,
+         <span class="pl-s"><span class="pl-pds">"</span>energy_100g<span class="pl-pds">"</span></span>:<span class="pl-c1">1660</span>,
+         <span class="pl-s"><span class="pl-pds">"</span>saturated-fat<span class="pl-pds">"</span></span>:<span class="pl-c1">1</span>
+      },
+      <span class="pl-s"><span class="pl-pds">"</span>countries_tags<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>en:france<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>ingredients_from_palm_oil_tags<span class="pl-pds">"</span></span>:[
+
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>emb_codes_tags<span class="pl-pds">"</span></span>:[
+
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>brands_tags<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>thai-kitchen<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>purchase_places<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>pnns_groups_2<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>unknown<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>countries_hierarchy<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>en:france<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>traces<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>Peanuts<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>categories<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>Rice Noodles<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>ingredients_text<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>RICE NOODLES (RICE, WATER), SEASONING PACKET (PEANUT, SUGAR, SALT, CORN STARCH, SPICES [CHILI, CINNAMON, PEPPER, CUMIN, CLOVE], HYDRDLYZED SOY PROTEIN, GREEN ONIONS, CITRIC ACID, PEANUT OIL, SESAME OIL, NATURAL FLAVOR).  <span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>created_t<span class="pl-pds">"</span></span>:<span class="pl-c1">1345799269</span>,
+      <span class="pl-s"><span class="pl-pds">"</span>product_name<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>Stir-Fry Rice Noodles<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>ingredients_from_or_that_may_be_from_palm_oil_n<span class="pl-pds">"</span></span>:<span class="pl-c1">0</span>,
+      <span class="pl-s"><span class="pl-pds">"</span>creator<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>andre<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>no_nutrition_data<span class="pl-pds">"</span></span>:<span class="pl-c1">null</span>,
+      <span class="pl-s"><span class="pl-pds">"</span>serving_size<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>78 g<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>completed_t<span class="pl-pds">"</span></span>:<span class="pl-c1">1355184837</span>,
+      <span class="pl-s"><span class="pl-pds">"</span>last_modified_by<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>thierrym<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>new_additives_n<span class="pl-pds">"</span></span>:<span class="pl-c1">1</span>,
+      <span class="pl-s"><span class="pl-pds">"</span>origins<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>Thailand<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>stores<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>nutrition_grade_fr<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>d<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>nutrient_levels<span class="pl-pds">"</span></span>:{
+         <span class="pl-s"><span class="pl-pds">"</span>salt<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>high<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>fat<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>moderate<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>sugars<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>high<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>saturated-fat<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>low<span class="pl-pds">"</span></span>
+      },
+      <span class="pl-s"><span class="pl-pds">"</span>stores_tags<span class="pl-pds">"</span></span>:[
+
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>737628064502<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>countries<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>France<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>purchase_places_tags<span class="pl-pds">"</span></span>:[
+
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>interface_version_modified<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>20120622<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>fruits-vegetables-nuts_100g_estimate<span class="pl-pds">"</span></span>:<span class="pl-c1">0</span>,
+      <span class="pl-s"><span class="pl-pds">"</span>sortkey<span class="pl-pds">"</span></span>:<span class="pl-c1">1355184837</span>,
+      <span class="pl-s"><span class="pl-pds">"</span>last_modified_t<span class="pl-pds">"</span></span>:<span class="pl-c1">1355184837</span>,
+      <span class="pl-s"><span class="pl-pds">"</span>nutrition_score_debug<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span> -- energy 4 + sat-fat 1 + fr-sat-fat-for-fats 0 + sugars 2 + sodium 8 - fruits 0% 0 - fiber 0 - proteins 5 -- fsa 15 -- fr 15<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>countries.20131227<span class="pl-pds">"</span></span>:<span class="pl-c1">null</span>,
+      <span class="pl-s"><span class="pl-pds">"</span>correctors_tags<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>andre<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>thierrym<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>correctors<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>andre<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>thierrym<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>new_additives_debug<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>lc: en -  [ rice-noodles -&gt; en:rice-noodles  ]  [ rice -&gt; en:rice  ]  [ water -&gt; en:water  ]  [ seasoning-packet -&gt; en:seasoning-packet  ]  [ peanut -&gt; en:peanut  ]  [ sugar -&gt; en:sugar  ]  [ salt -&gt; en:salt  ]  [ corn-starch -&gt; en:corn-starch  ]  [ spices-chili -&gt; en:spices-chili  ]  [ cinnamon -&gt; en:cinnamon  ]  [ pepper -&gt; en:pepper  ]  [ cumin -&gt; en:cumin  ]  [ clove -&gt; en:clove  ]  [ hydrdlyzed-soy-protein -&gt; en:hydrdlyzed-soy-protein  ]  [ green-onions -&gt; en:green-onions  ]  [ citric-acid -&gt; en:e330  -&gt; exists  ]  [ peanut-oil -&gt; en:peanut-oil  ]  [ sesame-oil -&gt; en:sesame-oil  ]  [ natural-flavor -&gt; en:natural-flavor  ] <span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>brands<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>Thai Kitchen<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>ingredients_tags<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>rice-noodles<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>seasoning-packet<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>rice<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>water<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>peanut<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>sugar<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>salt<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>corn-starch<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>spices<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>chili<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>cinnamon<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>pepper<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>cumin<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>clove<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>hydrdlyzed-soy-protein<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>green-onions<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>citric-acid<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>peanut-oil<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>sesame-oil<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>natural-flavor<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>new_additives_tags<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>en:e330<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>states<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>en:to-be-checked, en:complete, en:nutrition-facts-completed, en:ingredients-completed, en:expiration-date-to-be-completed, en:characteristics-completed, en:photos-validated, en:photos-uploaded<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>informers<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>andre<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>manu1400<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>thierrym<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>entry_dates_tags<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>2012-08-24<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>2012-08<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>2012<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>nutrition_grades_tags<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>d<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>packaging<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>Cellophane,Carton<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>serving_quantity<span class="pl-pds">"</span></span>:<span class="pl-c1">78</span>,
+      <span class="pl-s"><span class="pl-pds">"</span>origins_tags<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>thailand<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>nutrition_data_per<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>serving<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>labels<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>gluten free<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>cities_tags<span class="pl-pds">"</span></span>:[
+
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>emb_codes_20141016<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>categories_tags<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>en:rice-noodles<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>quantity<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>155 g<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>expiration_date<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>states_hierarchy<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>en:to-be-checked<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>en:complete<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>en:nutrition-facts-completed<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>en:ingredients-completed<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>en:expiration-date-to-be-completed<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>en:characteristics-completed<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>en:photos-validated<span class="pl-pds">"</span></span>,
+         <span class="pl-s"><span class="pl-pds">"</span>en:photos-uploaded<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>ingredients_that_may_be_from_palm_oil_n<span class="pl-pds">"</span></span>:<span class="pl-c1">0</span>,
+      <span class="pl-s"><span class="pl-pds">"</span>ingredients_from_palm_oil_n<span class="pl-pds">"</span></span>:<span class="pl-c1">0</span>,
+      <span class="pl-s"><span class="pl-pds">"</span>image_url<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>http://world.openfoodfacts.org/images/products/737/628/064/502/front.6.400.jpg<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>ingredients<span class="pl-pds">"</span></span>:[
+         {
+            <span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>RICE NOODLES<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>rice-noodles<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>rank<span class="pl-pds">"</span></span>:<span class="pl-c1">1</span>
+         },
+         {
+            <span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>SEASONING PACKET<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>seasoning-packet<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>rank<span class="pl-pds">"</span></span>:<span class="pl-c1">2</span>
+         },
+         {
+            <span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>.<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>rank<span class="pl-pds">"</span></span>:<span class="pl-c1">3</span>
+         },
+         {
+            <span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>RICE<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>rice<span class="pl-pds">"</span></span>
+         },
+         {
+            <span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>WATER<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>water<span class="pl-pds">"</span></span>
+         },
+         {
+            <span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>PEANUT<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>peanut<span class="pl-pds">"</span></span>
+         },
+         {
+            <span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>SUGAR<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>sugar<span class="pl-pds">"</span></span>
+         },
+         {
+            <span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>SALT<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>salt<span class="pl-pds">"</span></span>
+         },
+         {
+            <span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>CORN STARCH<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>corn-starch<span class="pl-pds">"</span></span>
+         },
+         {
+            <span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>SPICES<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>spices<span class="pl-pds">"</span></span>
+         },
+         {
+            <span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>CHILI<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>chili<span class="pl-pds">"</span></span>
+         },
+         {
+            <span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>CINNAMON<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>cinnamon<span class="pl-pds">"</span></span>
+         },
+         {
+            <span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>PEPPER<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>pepper<span class="pl-pds">"</span></span>
+         },
+         {
+            <span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>CUMIN<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>cumin<span class="pl-pds">"</span></span>
+         },
+         {
+            <span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>CLOVE<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>clove<span class="pl-pds">"</span></span>
+         },
+         {
+            <span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>HYDRDLYZED SOY PROTEIN<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>hydrdlyzed-soy-protein<span class="pl-pds">"</span></span>
+         },
+         {
+            <span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>GREEN ONIONS<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>green-onions<span class="pl-pds">"</span></span>
+         },
+         {
+            <span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>CITRIC ACID<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>citric-acid<span class="pl-pds">"</span></span>
+         },
+         {
+            <span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>PEANUT OIL<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>peanut-oil<span class="pl-pds">"</span></span>
+         },
+         {
+            <span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>SESAME OIL<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>sesame-oil<span class="pl-pds">"</span></span>
+         },
+         {
+            <span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>NATURAL FLAVOR<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>natural-flavor<span class="pl-pds">"</span></span>
+         }
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>lc<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>en<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>pnns_groups_1_tags<span class="pl-pds">"</span></span>:[
+         <span class="pl-s"><span class="pl-pds">"</span>unknown<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>checkers<span class="pl-pds">"</span></span>:[
+
+      ],
+      <span class="pl-s"><span class="pl-pds">"</span>complete<span class="pl-pds">"</span></span>:<span class="pl-c1">1</span>
+   },
+   <span class="pl-s"><span class="pl-pds">"</span>code<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>737628064502<span class="pl-pds">"</span></span>
+}</pre></div>
+
+<h2>
+<a id="creators" class="anchor" href="#creators" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creators</h2>
+
+<p><strong>Scot Scriven</strong></p>
+
+<ul>
+<li><a href="https://github.com/itchix">https://github.com/itchix</a></li>
+</ul>
+
+<h2>
+<a id="copyright-and-license" class="anchor" href="#copyright-and-license" aria-hidden="true"><span class="octicon octicon-link"></span></a>Copyright and license</h2>
+
+<pre><code>Copyright 2015 Scriven Scot
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</code></pre>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/openfoodfacts/OpenFoodFacts-APIRestPython">Openfoodfacts-apirestpython</a> is maintained by <a href="https://github.com/openfoodfacts">openfoodfacts</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
+
