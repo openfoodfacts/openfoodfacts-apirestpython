@@ -193,6 +193,88 @@ class ProductsCountries(restful.Resource):
                 return  mongo.db.products.distinct('countries')
 
 
+# ----- /products/additives -----
+class ProductsAdditives(restful.Resource):
+
+    # ----- GET Request -----
+    def get(self):
+        # ----- Get count # in the request, 0 by default -----
+        count = request.args.get('count',default=0, type=int)
+        query = request.args.get('query')
+
+        if request.args.get('query'):
+            map = Code("function () {"
+                        "   if (!this.colours) return;"
+                        "   this.additives_tags.forEach(function (c){"
+                        "       emit(c.trim(), 1)"
+                        "   });"
+                        "};")
+
+            reduce = Code("function (key, values) {"
+                        "   var count = 0;"
+                        "       for (index in values) {"
+                        "           count += values[index];"
+                        "       }"
+                        "       return count;"    
+                        "   };")
+
+            result = mongo.db.products.map_reduce(map, reduce, "additives_products")
+
+            res = []
+            for doc in result.find({"_id": {'$regex' : query, '$options' : '-i'}}):
+                res.append(doc['_id'])
+            if request.args.get('count') and count == 1:
+                return len(res)
+            else:
+                return res
+        else:
+            if request.args.get('count') and count == 1:
+                return  len(mongo.db.products.distinct('additives_tags'))
+            else:
+                return  mongo.db.products.distinct('additives_tags')
+
+
+# ----- /products/allergens -----
+class ProductsAllergens(restful.Resource):
+
+    # ----- GET Request -----
+    def get(self):
+        # ----- Get count # in the request, 0 by default -----
+        count = request.args.get('count',default=0, type=int)
+        query = request.args.get('query')
+
+        if request.args.get('query'):
+            map = Code("function () {"
+                        "   if (!this.colours) return;"
+                        "   this.allergens_tags.forEach(function (c){"
+                        "       emit(c.trim(), 1)"
+                        "   });"
+                        "};")
+
+            reduce = Code("function (key, values) {"
+                        "   var count = 0;"
+                        "       for (index in values) {"
+                        "           count += values[index];"
+                        "       }"
+                        "       return count;"    
+                        "   };")
+
+            result = mongo.db.products.map_reduce(map, reduce, "allergens_products")
+
+            res = []
+            for doc in result.find({"_id": {'$regex' : query, '$options' : '-i'}}):
+                res.append(doc['_id'])
+            if request.args.get('count') and count == 1:
+                return len(res)
+            else:
+                return res
+        else:
+            if request.args.get('count') and count == 1:
+                return  len(mongo.db.products.distinct('allergens_tags'))
+            else:
+                return  mongo.db.products.distinct('allergens_tags')
+
+
 # ----- / returns status OK and the MongoDB instance if the API is running -----
 class Root(restful.Resource):
 
@@ -210,3 +292,5 @@ api.add_resource(ProductId, '/product/<string:barcode>')
 api.add_resource(ProductsBrands, '/products/brands')
 api.add_resource(ProductsCategories, '/products/categories')
 api.add_resource(ProductsCountries, '/products/countries')
+api.add_resource(ProductsAdditives, '/products/additives')
+api.add_resource(ProductsAllergens, '/products/allergens')
