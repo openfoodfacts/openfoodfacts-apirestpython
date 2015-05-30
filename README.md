@@ -41,11 +41,11 @@ It will retrieve tags like “beef braising steak”, “beef steak”...
 URL to query                   | Description
 ------------------------------ | ---------------------------
 <code>GET</code> `/product/<barcode>`           | Get a product by barcode eg. `/product/737628064502`
-<code>GET</code> `/products/brands`             | If you want to know how many brands there are in the list you have just to do a request like that : `/products/brands?count=1`. If you want to query brands, to do for example an autocomplete field in ajax, query the API like : `/products/brands?query=Auch` or `/products/brands?query=Sains`.
-<code>GET</code> `/products/categories`         | If you want to know how many categories there are in the list you have just to do a request like that : `/products/categories?count=1`. If you want to query categories, to do for example an autocomplete field in ajax, query the API like : `/products/categories?query=Ric` or `/products/categories?query=plant`.
-<code>GET</code> `/products/countries`          | If you want to know how many countries there are in the list you have just to do a request like that : `/products/countries?count=1`. If you want to query countries, to do for example an autocomplete field in ajax, query the API like : `/products/countries?query=Fra` or `/products/countries?query=Aus`.
-<code>GET</code> `/products/additives`          | If you want to know how many additives there are in the list you have just to do a request like that : `/products/additives?count=1`. If you want to query additives, to do for example an autocomplete field in ajax, query the API like : `/products/additives?query=Citric` or `/products/additives?query=acid`.
-<code>GET</code> `/products/allergens`          | If you want to know how many allergens there are in the list you have just to do a request like that : `/products/allergens?count=1`. If you want to query allergens, to do for example an autocomplete field in ajax, query the API like : `/products/allergens?query=milk` or `/products/allergens?query=oil`. 
+<code>GET</code> `/products/brands`             | Return a list of `Brands`. If you want to query brands, to do for example an autocomplete field in ajax, query the API like : `/products/brands?query=Auch` or `/products/brands?query=Sains`.
+<code>GET</code> `/products/categories`         | Return a list of `Categories`. If you want to query categories, to do for example an autocomplete field in ajax, query the API like : `/products/categories?query=Ric` or `/products/categories?query=plant`.
+<code>GET</code> `/products/countries`          | Return a list of `Countries`. If you want to query countries, to do for example an autocomplete field in ajax, query the API like : `/products/countries?query=Fra` or `/products/countries?query=Aus`.
+<code>GET</code> `/products/additives`          | Return a list of `Additives`. If you want to query additives, to do for example an autocomplete field in ajax, query the API like : `/products/additives?query=Citric` or `/products/additives?query=acid`.
+<code>GET</code> `/products/allergens`          | Return a list of `Allergens`. If you want to query allergens, to do for example an autocomplete field in ajax, query the API like : `/products/allergens?query=milk` or `/products/allergens?query=oil`. 
 
 ### Options
 
