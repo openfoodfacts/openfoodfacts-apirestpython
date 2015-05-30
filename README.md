@@ -1,8 +1,12 @@
 # Open Food Facts API Rest Python #
 
-API in python for Open Food Facts <br/>
+OFF API provides programmatic access to Open Food Facts functionality and content.<br/>
+
 To try the API : https://offapi.herokuapp.com/ <br/>
 Or if you want to try in localhost, see below.
+
+The API is [REST API](http://en.wikipedia.org/wiki/Representational_State_Transfer "RESTful").
+Currently, return format for all endpoints is [JSON](http://json.org/ "JSON").
 
 ## What is this repository for? 
 
