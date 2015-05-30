@@ -61,6 +61,386 @@ q    =        | none             | search text on indexed fields
 
 Some fields are described here : http://world.openfoodfacts.org/data/data-fields.txt 
 
+### Example
+**Request**
+
+    GET /product/737628064502
+
+**Return**
+``` json
+{
+   "status_verbose":"product found",
+   "status":1,
+   "product":{
+      "last_edit_dates_tags":[
+         "2012-12-11",
+         "2012-12",
+         "2012"
+      ],
+      "labels_hierarchy":[
+         "en:gluten-free"
+      ],
+      "_id":"737628064502",
+      "categories_hierarchy":[
+         "en:Rice Noodles"
+      ],
+      "pnns_groups_1":"unknown",
+      "states_tags":[
+         "en:to-be-checked",
+         "en:complete",
+         "en:nutrition-facts-completed",
+         "en:ingredients-completed",
+         "en:expiration-date-to-be-completed",
+         "en:characteristics-completed",
+         "en:photos-validated",
+         "en:photos-uploaded"
+      ],
+      "checkers_tags":[
+
+      ],
+      "labels_tags":[
+         "en:gluten-free"
+      ],
+      "image_small_url":"http://world.openfoodfacts.org/images/products/737/628/064/502/front.6.200.jpg",
+      "code":"737628064502",
+      "additives_tags_n":null,
+      "traces_tags":[
+         "peanuts"
+      ],
+      "lang":"en",
+      "photographers":[
+         "andre"
+      ],
+      "generic_name":"Rice Noodles",
+      "ingredients_that_may_be_from_palm_oil_tags":[
+
+      ],
+      "old_additives_tags":[
+         "en:e330"
+      ],
+      "_keywords":[
+         "thailand",
+         "stir-fry",
+         "kitchen",
+         "thai",
+         "free",
+         "gluten",
+         "rice",
+         "noodle"
+      ],
+      "rev":15,
+      "editors":[
+         "",
+         "thierrym",
+         "manu1400",
+         "andre"
+      ],
+      "interface_version_created":"20120622",
+      "emb_codes":"",
+      "max_imgid":"5",
+      "additives_tags":[
+         "en:e330"
+      ],
+      "emb_codes_orig":"",
+      "informers_tags":[
+         "andre",
+         "manu1400",
+         "thierrym"
+      ],
+      "nutrient_levels_tags":[
+         "脂肪-in-moderate-quantity",
+         "饱和脂肪-in-low-quantity",
+         "糖-in-high-quantity",
+         "食盐-in-high-quantity"
+      ],
+      "photographers_tags":[
+         "andre"
+      ],
+      "additives_n":1,
+      "pnns_groups_2_tags":[
+         "unknown"
+      ],
+      "unknown_nutrients_tags":[
+
+      ],
+      "packaging_tags":[
+         "cellophane",
+         "carton"
+      ],
+      "nutriments":{
+         "sodium":"0.629",
+         "sugars":10,
+         "carbohydrates_unit":"g",
+         "fat_unit":"g",
+         "proteins_unit":"g",
+         "nutrition-score-fr_100g":15,
+         "fat":7,
+         "proteins_serving":7,
+         "sodium_serving":0.629,
+         "salt":1.59766,
+         "proteins":7,
+         "nutrition-score-fr":15,
+         "sugars_unit":"g",
+         "fat_serving":7,
+         "sodium_unit":"mg",
+         "sugars_100g":"12.8",
+         "saturated-fat_unit":"g",
+         "sodium_100g":0.806,
+         "saturated-fat_serving":1,
+         "fiber_unit":"g",
+         "energy":1297,
+         "energy_unit":"kcal",
+         "sugars_serving":10,
+         "carbohydrates_100g":70.5,
+         "nutrition-score-uk":15,
+         "proteins_100g":8.97,
+         "fiber_serving":0,
+         "carbohydrates_serving":55,
+         "energy_serving":1297,
+         "fat_100g":"8.97",
+         "saturated-fat_100g":"1.28",
+         "nutrition-score-uk_100g":15,
+         "fiber":0,
+         "salt_serving":1.59766,
+         "salt_100g":"2.05",
+         "carbohydrates":55,
+         "fiber_100g":0,
+         "energy_100g":1660,
+         "saturated-fat":1
+      },
+      "countries_tags":[
+         "en:france"
+      ],
+      "ingredients_from_palm_oil_tags":[
+
+      ],
+      "emb_codes_tags":[
+
+      ],
+      "brands_tags":[
+         "thai-kitchen"
+      ],
+      "purchase_places":"",
+      "pnns_groups_2":"unknown",
+      "countries_hierarchy":[
+         "en:france"
+      ],
+      "traces":"Peanuts",
+      "categories":"Rice Noodles",
+      "ingredients_text":"RICE NOODLES (RICE, WATER), SEASONING PACKET (PEANUT, SUGAR, SALT, CORN STARCH, SPICES [CHILI, CINNAMON, PEPPER, CUMIN, CLOVE], HYDRDLYZED SOY PROTEIN, GREEN ONIONS, CITRIC ACID, PEANUT OIL, SESAME OIL, NATURAL FLAVOR).  ",
+      "created_t":1345799269,
+      "product_name":"Stir-Fry Rice Noodles",
+      "ingredients_from_or_that_may_be_from_palm_oil_n":0,
+      "creator":"andre",
+      "no_nutrition_data":null,
+      "serving_size":"78 g",
+      "completed_t":1355184837,
+      "last_modified_by":"thierrym",
+      "new_additives_n":1,
+      "origins":"Thailand",
+      "stores":"",
+      "nutrition_grade_fr":"d",
+      "nutrient_levels":{
+         "salt":"high",
+         "fat":"moderate",
+         "sugars":"high",
+         "saturated-fat":"low"
+      },
+      "stores_tags":[
+
+      ],
+      "id":"737628064502",
+      "countries":"France",
+      "purchase_places_tags":[
+
+      ],
+      "interface_version_modified":"20120622",
+      "fruits-vegetables-nuts_100g_estimate":0,
+      "sortkey":1355184837,
+      "last_modified_t":1355184837,
+      "nutrition_score_debug":" -- energy 4 + sat-fat 1 + fr-sat-fat-for-fats 0 + sugars 2 + sodium 8 - fruits 0% 0 - fiber 0 - proteins 5 -- fsa 15 -- fr 15",
+      "countries.20131227":null,
+      "correctors_tags":[
+         "andre",
+         "thierrym"
+      ],
+      "correctors":[
+         "andre",
+         "thierrym"
+      ],
+      "new_additives_debug":"lc: en -  [ rice-noodles -> en:rice-noodles  ]  [ rice -> en:rice  ]  [ water -> en:water  ]  [ seasoning-packet -> en:seasoning-packet  ]  [ peanut -> en:peanut  ]  [ sugar -> en:sugar  ]  [ salt -> en:salt  ]  [ corn-starch -> en:corn-starch  ]  [ spices-chili -> en:spices-chili  ]  [ cinnamon -> en:cinnamon  ]  [ pepper -> en:pepper  ]  [ cumin -> en:cumin  ]  [ clove -> en:clove  ]  [ hydrdlyzed-soy-protein -> en:hydrdlyzed-soy-protein  ]  [ green-onions -> en:green-onions  ]  [ citric-acid -> en:e330  -> exists  ]  [ peanut-oil -> en:peanut-oil  ]  [ sesame-oil -> en:sesame-oil  ]  [ natural-flavor -> en:natural-flavor  ] ",
+      "brands":"Thai Kitchen",
+      "ingredients_tags":[
+         "rice-noodles",
+         "seasoning-packet",
+         "",
+         "rice",
+         "water",
+         "peanut",
+         "sugar",
+         "salt",
+         "corn-starch",
+         "spices",
+         "chili",
+         "cinnamon",
+         "pepper",
+         "cumin",
+         "clove",
+         "hydrdlyzed-soy-protein",
+         "green-onions",
+         "citric-acid",
+         "peanut-oil",
+         "sesame-oil",
+         "natural-flavor"
+      ],
+      "new_additives_tags":[
+         "en:e330"
+      ],
+      "states":"en:to-be-checked, en:complete, en:nutrition-facts-completed, en:ingredients-completed, en:expiration-date-to-be-completed, en:characteristics-completed, en:photos-validated, en:photos-uploaded",
+      "informers":[
+         "andre",
+         "manu1400",
+         "thierrym"
+      ],
+      "entry_dates_tags":[
+         "2012-08-24",
+         "2012-08",
+         "2012"
+      ],
+      "nutrition_grades_tags":[
+         "d"
+      ],
+      "packaging":"Cellophane,Carton",
+      "serving_quantity":78,
+      "origins_tags":[
+         "thailand"
+      ],
+      "nutrition_data_per":"serving",
+      "labels":"gluten free",
+      "cities_tags":[
+
+      ],
+      "emb_codes_20141016":"",
+      "categories_tags":[
+         "en:rice-noodles"
+      ],
+      "quantity":"155 g",
+      "expiration_date":"",
+      "states_hierarchy":[
+         "en:to-be-checked",
+         "en:complete",
+         "en:nutrition-facts-completed",
+         "en:ingredients-completed",
+         "en:expiration-date-to-be-completed",
+         "en:characteristics-completed",
+         "en:photos-validated",
+         "en:photos-uploaded"
+      ],
+      "ingredients_that_may_be_from_palm_oil_n":0,
+      "ingredients_from_palm_oil_n":0,
+      "image_url":"http://world.openfoodfacts.org/images/products/737/628/064/502/front.6.400.jpg",
+      "ingredients":[
+         {
+            "text":"RICE NOODLES",
+            "id":"rice-noodles",
+            "rank":1
+         },
+         {
+            "text":"SEASONING PACKET",
+            "id":"seasoning-packet",
+            "rank":2
+         },
+         {
+            "text":".",
+            "id":"",
+            "rank":3
+         },
+         {
+            "text":"RICE",
+            "id":"rice"
+         },
+         {
+            "text":"WATER",
+            "id":"water"
+         },
+         {
+            "text":"PEANUT",
+            "id":"peanut"
+         },
+         {
+            "text":"SUGAR",
+            "id":"sugar"
+         },
+         {
+            "text":"SALT",
+            "id":"salt"
+         },
+         {
+            "text":"CORN STARCH",
+            "id":"corn-starch"
+         },
+         {
+            "text":"SPICES",
+            "id":"spices"
+         },
+         {
+            "text":"CHILI",
+            "id":"chili"
+         },
+         {
+            "text":"CINNAMON",
+            "id":"cinnamon"
+         },
+         {
+            "text":"PEPPER",
+            "id":"pepper"
+         },
+         {
+            "text":"CUMIN",
+            "id":"cumin"
+         },
+         {
+            "text":"CLOVE",
+            "id":"clove"
+         },
+         {
+            "text":"HYDRDLYZED SOY PROTEIN",
+            "id":"hydrdlyzed-soy-protein"
+         },
+         {
+            "text":"GREEN ONIONS",
+            "id":"green-onions"
+         },
+         {
+            "text":"CITRIC ACID",
+            "id":"citric-acid"
+         },
+         {
+            "text":"PEANUT OIL",
+            "id":"peanut-oil"
+         },
+         {
+            "text":"SESAME OIL",
+            "id":"sesame-oil"
+         },
+         {
+            "text":"NATURAL FLAVOR",
+            "id":"natural-flavor"
+         }
+      ],
+      "lc":"en",
+      "pnns_groups_1_tags":[
+         "unknown"
+      ],
+      "checkers":[
+
+      ],
+      "complete":1
+   },
+   "code":"737628064502"
+}
+```
+
 ## Creators
 
 **Scot Scriven**
