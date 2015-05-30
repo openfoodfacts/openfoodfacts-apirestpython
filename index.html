@@ -92,31 +92,31 @@ It will retrieve tags like “beef braising steak”, “beef steak”...</p>
 <td>
 <code>GET</code> <code>/products/brands</code>
 </td>
-<td>If you want to know how many brands there are in the list you have just to do a request like that : <code>/products/brands?count=1</code>. If you want to query brands, to do for example an autocomplete field in ajax, query the API like : <code>/products/brands?query=Auch</code> or <code>/products/brands?query=Sains</code>.</td>
+<td>Return a list of <code>Brands</code>. If you want to query brands, to do for example an autocomplete field in ajax, query the API like : <code>/products/brands?query=Auch</code> or <code>/products/brands?query=Sains</code>.</td>
 </tr>
 <tr>
 <td>
 <code>GET</code> <code>/products/categories</code>
 </td>
-<td>If you want to know how many categories there are in the list you have just to do a request like that : <code>/products/categories?count=1</code>. If you want to query categories, to do for example an autocomplete field in ajax, query the API like : <code>/products/categories?query=Ric</code> or <code>/products/categories?query=plant</code>.</td>
+<td>Return a list of <code>Categories</code>. If you want to query categories, to do for example an autocomplete field in ajax, query the API like : <code>/products/categories?query=Ric</code> or <code>/products/categories?query=plant</code>.</td>
 </tr>
 <tr>
 <td>
 <code>GET</code> <code>/products/countries</code>
 </td>
-<td>If you want to know how many countries there are in the list you have just to do a request like that : <code>/products/countries?count=1</code>. If you want to query countries, to do for example an autocomplete field in ajax, query the API like : <code>/products/countries?query=Fra</code> or <code>/products/countries?query=Aus</code>.</td>
+<td>Return a list of <code>Countries</code>. If you want to query countries, to do for example an autocomplete field in ajax, query the API like : <code>/products/countries?query=Fra</code> or <code>/products/countries?query=Aus</code>.</td>
 </tr>
 <tr>
 <td>
 <code>GET</code> <code>/products/additives</code>
 </td>
-<td>If you want to know how many additives there are in the list you have just to do a request like that : <code>/products/additives?count=1</code>. If you want to query additives, to do for example an autocomplete field in ajax, query the API like : <code>/products/additives?query=Citric</code> or <code>/products/additives?query=acid</code>.</td>
+<td>Return a list of <code>Additives</code>. If you want to query additives, to do for example an autocomplete field in ajax, query the API like : <code>/products/additives?query=Citric</code> or <code>/products/additives?query=acid</code>.</td>
 </tr>
 <tr>
 <td>
 <code>GET</code> <code>/products/allergens</code>
 </td>
-<td>If you want to know how many allergens there are in the list you have just to do a request like that : <code>/products/allergens?count=1</code>. If you want to query allergens, to do for example an autocomplete field in ajax, query the API like : <code>/products/allergens?query=milk</code> or <code>/products/allergens?query=oil</code>.</td>
+<td>Return a list of <code>Allergens</code>. If you want to query allergens, to do for example an autocomplete field in ajax, query the API like : <code>/products/allergens?query=milk</code> or <code>/products/allergens?query=oil</code>.</td>
 </tr>
 </tbody>
 </table>
@@ -177,6 +177,7 @@ It will retrieve tags like “beef braising steak”, “beef steak”...</p>
 
 <p><strong>Return</strong></p>
 
+<blockquote>
 <div class="highlight highlight-json"><pre>{
    <span class="pl-s"><span class="pl-pds">"</span>status_verbose<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>product found<span class="pl-pds">"</span></span>,
    <span class="pl-s"><span class="pl-pds">"</span>status<span class="pl-pds">"</span></span>:<span class="pl-c1">1</span>,
@@ -205,7 +206,6 @@ It will retrieve tags like “beef braising steak”, “beef steak”...</p>
          <span class="pl-s"><span class="pl-pds">"</span>en:photos-uploaded<span class="pl-pds">"</span></span>
       ],
       <span class="pl-s"><span class="pl-pds">"</span>checkers_tags<span class="pl-pds">"</span></span>:[
-
       ],
       <span class="pl-s"><span class="pl-pds">"</span>labels_tags<span class="pl-pds">"</span></span>:[
          <span class="pl-s"><span class="pl-pds">"</span>en:gluten-free<span class="pl-pds">"</span></span>
@@ -222,7 +222,6 @@ It will retrieve tags like “beef braising steak”, “beef steak”...</p>
       ],
       <span class="pl-s"><span class="pl-pds">"</span>generic_name<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>Rice Noodles<span class="pl-pds">"</span></span>,
       <span class="pl-s"><span class="pl-pds">"</span>ingredients_that_may_be_from_palm_oil_tags<span class="pl-pds">"</span></span>:[
-
       ],
       <span class="pl-s"><span class="pl-pds">"</span>old_additives_tags<span class="pl-pds">"</span></span>:[
          <span class="pl-s"><span class="pl-pds">"</span>en:e330<span class="pl-pds">"</span></span>
@@ -270,7 +269,6 @@ It will retrieve tags like “beef braising steak”, “beef steak”...</p>
          <span class="pl-s"><span class="pl-pds">"</span>unknown<span class="pl-pds">"</span></span>
       ],
       <span class="pl-s"><span class="pl-pds">"</span>unknown_nutrients_tags<span class="pl-pds">"</span></span>:[
-
       ],
       <span class="pl-s"><span class="pl-pds">"</span>packaging_tags<span class="pl-pds">"</span></span>:[
          <span class="pl-s"><span class="pl-pds">"</span>cellophane<span class="pl-pds">"</span></span>,
@@ -321,10 +319,8 @@ It will retrieve tags like “beef braising steak”, “beef steak”...</p>
          <span class="pl-s"><span class="pl-pds">"</span>en:france<span class="pl-pds">"</span></span>
       ],
       <span class="pl-s"><span class="pl-pds">"</span>ingredients_from_palm_oil_tags<span class="pl-pds">"</span></span>:[
-
       ],
       <span class="pl-s"><span class="pl-pds">"</span>emb_codes_tags<span class="pl-pds">"</span></span>:[
-
       ],
       <span class="pl-s"><span class="pl-pds">"</span>brands_tags<span class="pl-pds">"</span></span>:[
          <span class="pl-s"><span class="pl-pds">"</span>thai-kitchen<span class="pl-pds">"</span></span>
@@ -356,12 +352,10 @@ It will retrieve tags like “beef braising steak”, “beef steak”...</p>
          <span class="pl-s"><span class="pl-pds">"</span>saturated-fat<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>low<span class="pl-pds">"</span></span>
       },
       <span class="pl-s"><span class="pl-pds">"</span>stores_tags<span class="pl-pds">"</span></span>:[
-
       ],
       <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>737628064502<span class="pl-pds">"</span></span>,
       <span class="pl-s"><span class="pl-pds">"</span>countries<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>France<span class="pl-pds">"</span></span>,
       <span class="pl-s"><span class="pl-pds">"</span>purchase_places_tags<span class="pl-pds">"</span></span>:[
-
       ],
       <span class="pl-s"><span class="pl-pds">"</span>interface_version_modified<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>20120622<span class="pl-pds">"</span></span>,
       <span class="pl-s"><span class="pl-pds">"</span>fruits-vegetables-nuts_100g_estimate<span class="pl-pds">"</span></span>:<span class="pl-c1">0</span>,
@@ -427,7 +421,6 @@ It will retrieve tags like “beef braising steak”, “beef steak”...</p>
       <span class="pl-s"><span class="pl-pds">"</span>nutrition_data_per<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>serving<span class="pl-pds">"</span></span>,
       <span class="pl-s"><span class="pl-pds">"</span>labels<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>gluten free<span class="pl-pds">"</span></span>,
       <span class="pl-s"><span class="pl-pds">"</span>cities_tags<span class="pl-pds">"</span></span>:[
-
       ],
       <span class="pl-s"><span class="pl-pds">"</span>emb_codes_20141016<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
       <span class="pl-s"><span class="pl-pds">"</span>categories_tags<span class="pl-pds">"</span></span>:[
@@ -542,12 +535,12 @@ It will retrieve tags like “beef braising steak”, “beef steak”...</p>
          <span class="pl-s"><span class="pl-pds">"</span>unknown<span class="pl-pds">"</span></span>
       ],
       <span class="pl-s"><span class="pl-pds">"</span>checkers<span class="pl-pds">"</span></span>:[
-
       ],
       <span class="pl-s"><span class="pl-pds">"</span>complete<span class="pl-pds">"</span></span>:<span class="pl-c1">1</span>
    },
    <span class="pl-s"><span class="pl-pds">"</span>code<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>737628064502<span class="pl-pds">"</span></span>
 }</pre></div>
+</blockquote>
 
 <h2>
 <a id="creators" class="anchor" href="#creators" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creators</h2>
