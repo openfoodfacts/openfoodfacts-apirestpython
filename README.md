@@ -67,7 +67,7 @@ Some fields are described here : http://world.openfoodfacts.org/data/data-fields
     GET /product/737628064502
 
 **Return**
-``` json
+> ``` json
 {
    "status_verbose":"product found",
    "status":1,
@@ -96,7 +96,6 @@ Some fields are described here : http://world.openfoodfacts.org/data/data-fields
          "en:photos-uploaded"
       ],
       "checkers_tags":[
-
       ],
       "labels_tags":[
          "en:gluten-free"
@@ -113,7 +112,6 @@ Some fields are described here : http://world.openfoodfacts.org/data/data-fields
       ],
       "generic_name":"Rice Noodles",
       "ingredients_that_may_be_from_palm_oil_tags":[
-
       ],
       "old_additives_tags":[
          "en:e330"
@@ -161,7 +159,6 @@ Some fields are described here : http://world.openfoodfacts.org/data/data-fields
          "unknown"
       ],
       "unknown_nutrients_tags":[
-
       ],
       "packaging_tags":[
          "cellophane",
@@ -212,10 +209,8 @@ Some fields are described here : http://world.openfoodfacts.org/data/data-fields
          "en:france"
       ],
       "ingredients_from_palm_oil_tags":[
-
       ],
       "emb_codes_tags":[
-
       ],
       "brands_tags":[
          "thai-kitchen"
@@ -247,12 +242,10 @@ Some fields are described here : http://world.openfoodfacts.org/data/data-fields
          "saturated-fat":"low"
       },
       "stores_tags":[
-
       ],
       "id":"737628064502",
       "countries":"France",
       "purchase_places_tags":[
-
       ],
       "interface_version_modified":"20120622",
       "fruits-vegetables-nuts_100g_estimate":0,
@@ -318,7 +311,6 @@ Some fields are described here : http://world.openfoodfacts.org/data/data-fields
       "nutrition_data_per":"serving",
       "labels":"gluten free",
       "cities_tags":[
-
       ],
       "emb_codes_20141016":"",
       "categories_tags":[
@@ -433,7 +425,6 @@ Some fields are described here : http://world.openfoodfacts.org/data/data-fields
          "unknown"
       ],
       "checkers":[
-
       ],
       "complete":1
    },
