@@ -66,7 +66,60 @@ class ProductsList(restful.Resource):
                 return mongo.db.products.find({ "$text" : { "$search": query } }).count()
             else:
                 return mongo.db.products.find({ "$text" : { "$search": query } }).sort('created_t', pymongo.DESCENDING).skip(skip).limit(limit)
-               
+
+
+FIELDS = {'nutrition_grades_tags': True, 'countries': True, 'created_t': True, '_id': False}
+# ----- /products/all-----
+class ProductsStats(restful.Resource):
+
+    # ----- GET Request -----
+    def get(self):
+        date = request.args.get('dateby',default=0, type=int)
+
+        # By year
+        if date == 0 : 
+            map = Code("function () {"
+                            "   var date = new Date(this.created_t*1000);"
+                            "   var parsedDateYear = date.getFullYear();"
+                            "   if(!parsedDateYear) return;"
+                            "   if(!this.countries) return;"
+                            "   emit({year : parsedDateYear, countries : this.countries}, {count:1});"
+                            "};")
+        #By year & month
+        elif date == 1 :
+            map = Code("function () {"
+                            "   var date = new Date(this.created_t*1000);"
+                            "   var parsedDateMonth = date.getMonth();"
+                            "   var parsedDateYear = date.getFullYear();"
+                            "   if(!this.countries) return;"
+                            "   if(!parsedDateYear || !parsedDateMonth) return;"
+                            "   emit({year : parsedDateYear, month : parsedDateMonth, countries : this.countries}, {count:1});"
+                            "};")
+        #By year & month & day
+        else :
+            map = Code("function () {"
+                            "   var date = new Date(this.created_t*1000);"
+                            "   var parsedDateMonth = date.getMonth();"
+                            "   var parsedDateYear = date.getFullYear();"
+                            "   var parsedDateDay = date.getDay();"
+                            "   if(!this.countries) return;"
+                            "   if(!parsedDateYear || !parsedDateMonth || !parsedDateDay) return;"
+                            "   emit({year : parsedDateYear, month : parsedDateMonth, day : parsedDateDay, countries : this.countries}, {count:1});"
+                            "};")
+
+
+        reduce = Code("function (key, values) {"
+                    "   var count = 0;"
+                    "   var ret = {count : 0};"
+                    "       for (index in values) {"
+                    "           ret.count += values[index].count;"
+                    "       }"
+                    "       return ret;"    
+                    "   };")
+
+        result = mongo.db.products.map_reduce(map, reduce, "stats_products")
+        return result.find()
+
 
 # ----- /product/<product_id> -----
 class ProductId(restful.Resource):
@@ -275,19 +328,9 @@ class ProductsAllergens(restful.Resource):
                 return  mongo.db.products.distinct('allergens_tags')
 
 
-# ----- / returns status OK and the MongoDB instance if the API is running -----
-class Root(restful.Resource):
 
-    # ----- GET Request -----
-    def get(self):
-        return {
-            'status': 'OK',
-            'mongo': str(mongo.db),
-        }
-
-
-api.add_resource(Root, '/')
 api.add_resource(ProductsList, '/products')
+api.add_resource(ProductsStats, '/products/stats')
 api.add_resource(ProductId, '/product/<string:barcode>')
 api.add_resource(ProductsBrands, '/products/brands')
 api.add_resource(ProductsCategories, '/products/categories')
