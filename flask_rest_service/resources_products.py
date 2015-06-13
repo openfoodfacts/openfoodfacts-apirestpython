@@ -68,7 +68,6 @@ class ProductsList(restful.Resource):
                 return mongo.db.products.find({ "$text" : { "$search": query } }).sort('created_t', pymongo.DESCENDING).skip(skip).limit(limit)
 
 
-FIELDS = {'nutrition_grades_tags': True, 'countries': True, 'created_t': True, '_id': False}
 # ----- /products/all-----
 class ProductsStats(restful.Resource):
 
@@ -82,8 +81,7 @@ class ProductsStats(restful.Resource):
                             "   var date = new Date(this.created_t*1000);"
                             "   var parsedDateYear = date.getFullYear();"
                             "   if(!parsedDateYear) return;"
-                            "   if(!this.countries) return;"
-                            "   emit({year : parsedDateYear, countries : this.countries}, {count:1});"
+                            "   emit({year : parsedDateYear}, {count:1});"
                             "};")
         #By year & month
         elif date == 1 :
@@ -91,20 +89,18 @@ class ProductsStats(restful.Resource):
                             "   var date = new Date(this.created_t*1000);"
                             "   var parsedDateMonth = date.getMonth();"
                             "   var parsedDateYear = date.getFullYear();"
-                            "   if(!this.countries) return;"
                             "   if(!parsedDateYear || !parsedDateMonth) return;"
-                            "   emit({year : parsedDateYear, month : parsedDateMonth, countries : this.countries}, {count:1});"
+                            "   emit({year : parsedDateYear, month : parsedDateMonth}, {count:1});"
                             "};")
         #By year & month & day
-        else :
+        elif date == 2 :
             map = Code("function () {"
                             "   var date = new Date(this.created_t*1000);"
                             "   var parsedDateMonth = date.getMonth();"
                             "   var parsedDateYear = date.getFullYear();"
                             "   var parsedDateDay = date.getDay();"
-                            "   if(!this.countries) return;"
                             "   if(!parsedDateYear || !parsedDateMonth || !parsedDateDay) return;"
-                            "   emit({year : parsedDateYear, month : parsedDateMonth, day : parsedDateDay, countries : this.countries}, {count:1});"
+                            "   emit({year : parsedDateYear, month : parsedDateMonth, day : parsedDateDay}, {count:1});"
                             "};")
 
 

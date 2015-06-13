@@ -29,5 +29,4 @@ api.representations = DEFAULT_REPRESENTATIONS
 
 # ----- Import all the WebServices -----
 import flask_rest_service.resources_root
-import flask_rest_service.resources_stats
 import flask_rest_service.resources_products
