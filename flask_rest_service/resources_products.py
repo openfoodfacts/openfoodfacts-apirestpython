@@ -68,8 +68,8 @@ class ProductsList(restful.Resource):
                 return mongo.db.products.find({ "$text" : { "$search": query } }).sort('created_t', pymongo.DESCENDING).skip(skip).limit(limit)
 
 
-# ----- /products/all-----
-class ProductsStats(restful.Resource):
+# ----- /products/stats/date-----
+class ProductsStatsDate(restful.Resource):
 
     # ----- GET Request -----
     def get(self):
@@ -113,8 +113,19 @@ class ProductsStats(restful.Resource):
                     "       return ret;"    
                     "   };")
 
+        listRes = []
         result = mongo.db.products.map_reduce(map, reduce, "stats_products")
-        return result.find()
+        for doc in result.find():
+            res = {}
+            res['dateyear'] = doc['_id']['year']
+            if date == 1 :
+                res['datemonth'] = doc['_id']['month']
+            if date == 2 :
+                res['datemonth'] = doc['_id']['month']
+                res['dateday'] = doc['_id']['day']
+            res['count'] = doc['value']['count']
+            listRes.append(res)
+        return listRes
 
 
 # ----- /product/<product_id> -----
@@ -326,7 +337,7 @@ class ProductsAllergens(restful.Resource):
 
 
 api.add_resource(ProductsList, '/products')
-api.add_resource(ProductsStats, '/products/stats')
+api.add_resource(ProductsStatsDate, '/products/stats/date')
 api.add_resource(ProductId, '/product/<string:barcode>')
 api.add_resource(ProductsBrands, '/products/brands')
 api.add_resource(ProductsCategories, '/products/categories')

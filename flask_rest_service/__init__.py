@@ -8,7 +8,7 @@ from bson.json_util import dumps
 # ----- Define MongoDB variables -----
 MONGO_URL = os.environ.get('MONGO_URL')
 if not MONGO_URL:
-    MONGO_URL = "mongodb://localhost:27017/off";
+    MONGO_URL = "mongodb://151.80.234.189:27017/off-fr";
 
 app = Flask(__name__)
 
@@ -30,3 +30,4 @@ api.representations = DEFAULT_REPRESENTATIONS
 # ----- Import all the WebServices -----
 import flask_rest_service.resources_root
 import flask_rest_service.resources_products
+import flask_rest_service.resources_stats
