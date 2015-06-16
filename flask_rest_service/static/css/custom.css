@@ -1,5 +1,14 @@
-#number-products-nd {
-    font-size: 60px;
+#date-range {
+ font-weight: bold;
+ font-size: 20px;
+}
+
+#number-products {
+    font-size: 40px;
+}
+
+#number-products-total {
+    font-size: 40px;
 }
 
 .dc-chart g.row text {

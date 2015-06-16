@@ -8,7 +8,7 @@ from bson.json_util import dumps
 # ----- Define MongoDB variables -----
 MONGO_URL = os.environ.get('MONGO_URL')
 if not MONGO_URL:
-    MONGO_URL = "mongodb://offread:offapiread@151.80.234.189:27017/off-fr";
+    MONGO_URL = "mongodb://localhost:27017/off-fr";
 
 app = Flask(__name__)
 
