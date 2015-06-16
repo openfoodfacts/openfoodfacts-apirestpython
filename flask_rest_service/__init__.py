@@ -13,7 +13,7 @@ if not MONGO_URL:
 app = Flask(__name__)
 
 app.config['MONGO_URI'] = MONGO_URL
-app.config['MONGO_DBNAME'] = 'off'
+app.config['MONGO_DBNAME'] = 'off-fr'
 mongo = PyMongo(app)
 
 # ----- Output JSON function -----
