@@ -15,6 +15,10 @@ app = Flask(__name__)
 
 app.config['MONGO_URI'] = MONGO_URL
 app.config['MONGO_DBNAME'] = 'off-fr'
+
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
+
 mongo = PyMongo(app)
 
 # ----- Output JSON function -----
