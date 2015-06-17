@@ -68,41 +68,29 @@ class ProductsList(restful.Resource):
                 return mongo.db.products.find({ "$text" : { "$search": query } }).sort('created_t', pymongo.DESCENDING).skip(skip).limit(limit)
 
 
-# ----- /products/stats/date-----
-class ProductsStatsDate(restful.Resource):
+# ----- /products/stats/info-----
+class ProductsStats(restful.Resource):
 
     # ----- GET Request -----
     def get(self):
-        date = request.args.get('dateby',default=0, type=int)
 
-        # By year
-        if date == 0 : 
-            map = Code("function () {"
-                            "   var date = new Date(this.created_t*1000);"
-                            "   var parsedDateYear = date.getFullYear();"
-                            "   if(!parsedDateYear) return;"
-                            "   emit({year : parsedDateYear}, {count:1});"
-                            "};")
-        #By year & month
-        elif date == 1 :
-            map = Code("function () {"
-                            "   var date = new Date(this.created_t*1000);"
-                            "   var parsedDateMonth = date.getMonth();"
-                            "   var parsedDateYear = date.getFullYear();"
-                            "   if(!parsedDateYear || !parsedDateMonth) return;"
-                            "   emit({year : parsedDateYear, month : parsedDateMonth}, {count:1});"
-                            "};")
-        #By year & month & day
-        elif date == 2 :
-            map = Code("function () {"
-                            "   var date = new Date(this.created_t*1000);"
-                            "   var parsedDateMonth = date.getMonth();"
-                            "   var parsedDateYear = date.getFullYear();"
-                            "   var parsedDateDay = date.getDay();"
-                            "   if(!parsedDateYear || !parsedDateMonth || !parsedDateDay) return;"
-                            "   emit({year : parsedDateYear, month : parsedDateMonth, day : parsedDateDay}, {count:1});"
-                            "};")
-
+        map = Code("function () {"
+                        "   var date = new Date(this.created_t*1000);"
+                        "   var parsedDateMonth = date.getMonth();"
+                        "   var parsedDateYear = date.getFullYear();"
+                        "   var saltLevelsValue = null;"
+                        "   var fatLevelsValue = null;"
+                        "   var saturatedfatLevelsValue = null;"
+                        "   var sugarsLevelsValue = null;"
+                        "   if(!parsedDateYear || !parsedDateMonth) return;"
+                        "   if(this.hasOwnProperty('nutrient_levels')) {"
+                        "       saltLevelsValue = this.nutrient_levels.salt;"
+                        "       fatLevelsValue = this.nutrient_levels.fat;"
+                        "       saturatedfatLevelsValue = this['nutrient_levels']['saturated-fat'];"
+                        "       sugarsLevelsValue = this.nutrient_levels.sugars;"
+                        "   } else { saltLevelsValue = null; fatLevelsValue = null; saturatedfatLevelsValue = null, sugarsLevelsValue = null}"
+                        "   emit({year : parsedDateYear, month : parsedDateMonth, saltlevels : saltLevelsValue, fatlevels : fatLevelsValue, saturatedfatlevels : saturatedfatLevelsValue, sugarslevels : sugarsLevelsValue}, {count:1});"
+                        "};")
 
         reduce = Code("function (key, values) {"
                     "   var count = 0;"
@@ -118,12 +106,12 @@ class ProductsStatsDate(restful.Resource):
         for doc in result.find():
             res = {}
             res['dateyear'] = doc['_id']['year']
-            if date == 1 :
-                res['datemonth'] = doc['_id']['month']
-            if date == 2 :
-                res['datemonth'] = doc['_id']['month']
-                res['dateday'] = doc['_id']['day']
+            res['datemonth'] = doc['_id']['month']
             res['count'] = doc['value']['count']
+            res['saltlevels'] = doc['_id']['saltlevels']
+            res['saturatedfatlevels'] = doc['_id']['saturatedfatlevels']
+            res['sugarslevels'] = doc['_id']['sugarslevels']
+            res['fatlevels'] = doc['_id']['fatlevels']
             listRes.append(res)
         return listRes
 
@@ -337,7 +325,7 @@ class ProductsAllergens(restful.Resource):
 
 
 api.add_resource(ProductsList, '/products')
-api.add_resource(ProductsStatsDate, '/products/stats/date')
+api.add_resource(ProductsStats, '/products/stats/info')
 api.add_resource(ProductId, '/product/<string:barcode>')
 api.add_resource(ProductsBrands, '/products/brands')
 api.add_resource(ProductsCategories, '/products/categories')

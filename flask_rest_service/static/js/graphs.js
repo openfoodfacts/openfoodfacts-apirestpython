@@ -1,5 +1,5 @@
 queue()
-    .defer(d3.json, "/products/stats/date?dateby=1")
+    .defer(d3.json, "/products/stats/info?dateby=1")
     .await(makeGraphs);
 
 function makeGraphs(error, productsJSON, statesJson) {
@@ -13,6 +13,10 @@ function makeGraphs(error, productsJSON, statesJson) {
 		var datemonth = d["datemonth"];
 		d["date"] = dateFormat.parse(dateyear + '-' + datemonth);
 		totalProd += d['count'];
+		if(!d['saltlevels']) d['saltlevels'] = 'undifined';
+		if(!d['fatlevels']) d['fatlevels'] = 'undifined';
+		if(!d['saturatedfatlevels']) d['saturatedfatlevels'] = 'undifined';
+		if(!d['sugarslevels']) d['sugarslevels'] = 'undifined';
 	});
 
 	//Create a Crossfilter instance
@@ -21,10 +25,17 @@ function makeGraphs(error, productsJSON, statesJson) {
 	//Define Dimensions
 	var dateDim = ndx.dimension(function(d) { return d["date"]; });
 	var numberProductsDim = ndx.dimension(function(d) { return d["count"]; });
-
+	var saltLevelsProductsDim = ndx.dimension(function(d) { return d["saltlevels"]; });
+	var fatLevelsProductsDim = ndx.dimension(function(d) { return d["fatlevels"]; });
+	var saturatedFatLevelsProductsDim = ndx.dimension(function(d) { return d["saturatedfatlevels"]; });
+	var sugarsLevelsProductsDim = ndx.dimension(function(d) { return d["sugarslevels"]; });
 
 	//Calculate metrics
 	var numProductsByDate = dateDim.group().reduceSum(function(d){return d.count;});
+	var numProductsSaltLevels = saltLevelsProductsDim.group().reduceSum(function(d){return d.count;});
+	var numProductsFatLevels = fatLevelsProductsDim.group().reduceSum(function(d){return d.count;});
+	var numProductsSaturedFatLevels = saturatedFatLevelsProductsDim.group().reduceSum(function(d){return d.count;});
+	var numProductsSugarsLevels = sugarsLevelsProductsDim.group().reduceSum(function(d){return d.count;});
 
 	var all = ndx.groupAll();
 	var totalProducts = ndx.groupAll().reduceSum(function(d) {return d["count"];});
@@ -35,6 +46,10 @@ function makeGraphs(error, productsJSON, statesJson) {
 
     //Charts
 	var timeChart = dc.lineChart("#time-chart");
+	var saltChart = dc.rowChart("#salt-levels");
+	var fatChart = dc.rowChart("#fat-levels");
+	var sugarsChart = dc.rowChart("#sugars-levels");
+	var saturedFatChart = dc.rowChart("#saturated-fat-levels");
 	var productsDisp = dc.numberDisplay("#number-products");
 	var totalProductsDisp = document.getElementById('number-products-total');
 	var dateRange = document.getElementById('date-range');
@@ -43,7 +58,35 @@ function makeGraphs(error, productsJSON, statesJson) {
 	productsDisp
 		.formatNumber(d3.format("d"))
 		.valueAccessor(function(d){return d; })
-		.group(totalProducts)
+		.group(totalProducts);
+
+	saltChart
+	    .width(300)
+	    .height(250)
+	    .dimension(saltLevelsProductsDim)
+	    .group(numProductsSaltLevels)
+	    .xAxis().ticks(4);
+	    
+	saturedFatChart
+	    .width(300)
+	    .height(250)
+	    .dimension(saturatedFatLevelsProductsDim)
+	    .group(numProductsSaturedFatLevels)
+	    .xAxis().ticks(4);
+
+	fatChart
+	    .width(300)
+	    .height(250)
+	    .dimension(fatLevelsProductsDim)
+	    .group(numProductsFatLevels)
+	    .xAxis().ticks(4);
+
+	sugarsChart
+	    .width(300)
+	    .height(250)
+	    .dimension(numProductsSugarsLevels)
+	    .group(numProductsSugarsLevels)
+	    .xAxis().ticks(4);
 
 	timeChart
 		.width(680)
