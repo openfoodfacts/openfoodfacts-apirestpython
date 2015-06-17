@@ -4,6 +4,7 @@ from flask.ext import restful
 from flask.ext.pymongo import PyMongo
 from flask import make_response
 from bson.json_util import dumps
+import logging
 
 # ----- Define MongoDB variables -----
 MONGO_URL = os.environ.get('MONGO_URL')
