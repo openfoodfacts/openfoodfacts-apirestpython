@@ -43,13 +43,14 @@ function makeGraphs(error, productsJSON, statesJson) {
 	//Define values (to be used in charts)
 	var minDate = dateDim.bottom(1)[0]["date"];
 	var maxDate = dateDim.top(1)[0]["date"];
+	maxDate = new Date(new Date(maxDate).setMonth(maxDate.getMonth()+1));
 
     //Charts
 	var timeChart = dc.lineChart("#time-chart");
-	var saltChart = dc.rowChart("#salt-levels");
-	var fatChart = dc.rowChart("#fat-levels");
-	var sugarsChart = dc.rowChart("#sugars-levels");
-	var saturedFatChart = dc.rowChart("#saturated-fat-levels");
+	var saltChart = dc.pieChart("#salt-levels");
+	var fatChart = dc.pieChart("#fat-levels");
+	var sugarsChart = dc.pieChart("#sugars-levels");
+	var saturedFatChart = dc.pieChart("#saturated-fat-levels");
 	var productsDisp = dc.numberDisplay("#number-products");
 	var totalProductsDisp = document.getElementById('number-products-total');
 	var dateRange = document.getElementById('date-range');
@@ -61,32 +62,32 @@ function makeGraphs(error, productsJSON, statesJson) {
 		.group(totalProducts);
 
 	saltChart
-	    .width(300)
+	    .width(250)
 	    .height(250)
 	    .dimension(saltLevelsProductsDim)
 	    .group(numProductsSaltLevels)
-	    .xAxis().ticks(4);
-	    
+	    .innerRadius(30); 
+
 	saturedFatChart
-	    .width(300)
+	    .width(250)
 	    .height(250)
 	    .dimension(saturatedFatLevelsProductsDim)
 	    .group(numProductsSaturedFatLevels)
-	    .xAxis().ticks(4);
+	    .innerRadius(30); 
 
 	fatChart
-	    .width(300)
+	    .width(250)
 	    .height(250)
 	    .dimension(fatLevelsProductsDim)
 	    .group(numProductsFatLevels)
-	    .xAxis().ticks(4);
+	    .innerRadius(30); 
 
 	sugarsChart
-	    .width(300)
+	    .width(250)
 	    .height(250)
 	    .dimension(numProductsSugarsLevels)
 	    .group(numProductsSugarsLevels)
-	    .xAxis().ticks(4);
+	    .innerRadius(30); 
 
 	timeChart
 		.width(680)
