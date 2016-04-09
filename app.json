@@ -1,0 +1,23 @@
+{
+  "name": "OpenFoodFacts-APIRestPython",
+  "description": "API for Open Food Facts",
+  "keywords": [
+    "api",
+    "food",
+    "data",
+    "open"
+  ],
+  "website": "http://openfoodfacts.org/",
+  "logo": "http://openfoodfacts.org/images/misc/openfoodfacts-logo-356.png",
+  "repository": "https://github.com/openfoodfacts/OpenFoodFacts-APIRestPython",
+  "image": "heroku/python",
+  "env": {
+    "MONGO_URL": {
+      "description": "mongodb://<user>:<password>@<host>:<port>/<db>",
+      "required": true
+    },
+    "DEBUG": {
+      "value": "False"
+    }
+  }
+}
