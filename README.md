@@ -2,13 +2,15 @@
 
 OFF API provides programmatic access to Open Food Facts functionality and content.<br/>
 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/openfoodfacts/OpenFoodFacts-APIRestPython)
+
 To try the API : https://offapi.herokuapp.com/ <br/>
 Or if you want to try in localhost, see below.
 
 The API is [REST API](http://en.wikipedia.org/wiki/Representational_State_Transfer "RESTful").
 Currently, return format for all endpoints is [JSON](http://json.org/ "JSON").
 
-## What is this repository for? 
+## What is this repository for?
 
 This piece of software’s main goals are :
 * To make it easy to retrieve data using HTTP requests
@@ -45,7 +47,7 @@ URL to query                   | Description
 <code>GET</code> `/products/categories`         | Return a list of `Categories`. If you want to query categories, to do for example an autocomplete field in ajax, query the API like : `/products/categories?query=Ric` or `/products/categories?query=plant`.
 <code>GET</code> `/products/countries`          | Return a list of `Countries`. If you want to query countries, to do for example an autocomplete field in ajax, query the API like : `/products/countries?query=Fra` or `/products/countries?query=Aus`.
 <code>GET</code> `/products/additives`          | Return a list of `Additives`. If you want to query additives, to do for example an autocomplete field in ajax, query the API like : `/products/additives?query=Citric` or `/products/additives?query=acid`.
-<code>GET</code> `/products/allergens`          | Return a list of `Allergens`. If you want to query allergens, to do for example an autocomplete field in ajax, query the API like : `/products/allergens?query=milk` or `/products/allergens?query=oil`. 
+<code>GET</code> `/products/allergens`          | Return a list of `Allergens`. If you want to query allergens, to do for example an autocomplete field in ajax, query the API like : `/products/allergens?query=milk` or `/products/allergens?query=oil`.
 
 ### Options
 
@@ -59,7 +61,7 @@ q    =        | none             | search text on indexed fields
 
 ### Indexed fields
 
-Some fields are described here : http://world.openfoodfacts.org/data/data-fields.txt 
+Some fields are described here : http://world.openfoodfacts.org/data/data-fields.txt
 
 ### Example
 **Request**
@@ -440,13 +442,13 @@ Some fields are described here : http://world.openfoodfacts.org/data/data-fields
 ## Copyright and license
 
     Copyright 2015 Scriven Scot
-    
+
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
-    
+
         http://www.apache.org/licenses/LICENSE-2.0
-    
+
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
