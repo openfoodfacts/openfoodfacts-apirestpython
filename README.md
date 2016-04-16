@@ -4,7 +4,7 @@ OFF API provides programmatic access to Open Food Facts functionality and conten
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/openfoodfacts/OpenFoodFacts-APIRestPython)
 
-To try the API : https://offapi.herokuapp.com/ <br/>
+To try the API : https://openfoodfacts-api.herokuapp.com/ <br/>
 Or if you want to try in localhost, see below.
 
 The API is [REST API](http://en.wikipedia.org/wiki/Representational_State_Transfer "RESTful").
