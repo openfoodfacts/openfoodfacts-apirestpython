@@ -10,6 +10,14 @@ Or if you want to try in localhost, see below.
 The API is [REST API](http://en.wikipedia.org/wiki/Representational_State_Transfer "RESTful").
 Currently, return format for all endpoints is [JSON](http://json.org/ "JSON").
 
+## Status
+
+
+[![Project Status](http://opensource.box.com/badges/active.svg)](http://opensource.box.com/badges)
+[![Build Status](https://travis-ci.org/openfoodfacts/OpenFoodFacts-APIRestPython.svg?branch=master)](https://travis-ci.org/openfoodfacts/OpenFoodFacts-APIRestPython) [![Stories in Ready](https://badge.waffle.io/openfoodfacts/OpenFoodFacts-APIRestPython.svg?label=ready&title=Ready)](http://waffle.io/openfoodfacts/OpenFoodFacts-APIRestPython)
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/openfoodfacts/OpenFoodFacts-APIRestPython.svg)](http://isitmaintained.com/project/openfoodfacts/OpenFoodFacts-APIRestPython "Average time to resolve an issue")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/openfoodfacts/OpenFoodFacts-APIRestPython.svg)](http://isitmaintained.com/project/openfoodfacts/OpenFoodFacts-APIRestPython "Percentage of issues still open")
+
 ## What is this repository for?
 
 This piece of software’s main goals are :
