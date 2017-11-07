@@ -7,16 +7,16 @@ OFF API provides programmatic access to Open Food Facts functionality and conten
 To try the API : https://openfoodfacts-api.herokuapp.com/ <br/>
 Or if you want to try in localhost, see below.
 
-The API is [REST API](http://en.wikipedia.org/wiki/Representational_State_Transfer "RESTful").
-Currently, return format for all endpoints is [JSON](http://json.org/ "JSON").
+The API is [REST API](https://en.wikipedia.org/wiki/Representational_State_Transfer "RESTful").
+Currently, return format for all endpoints is [JSON](https://json.org/ "JSON").
 
 ## Status
 
 
 [![Project Status](http://opensource.box.com/badges/active.svg)](http://opensource.box.com/badges)
-[![Build Status](https://travis-ci.org/openfoodfacts/OpenFoodFacts-APIRestPython.svg?branch=master)](https://travis-ci.org/openfoodfacts/OpenFoodFacts-APIRestPython) [![Stories in Ready](https://badge.waffle.io/openfoodfacts/OpenFoodFacts-APIRestPython.svg?label=ready&title=Ready)](http://waffle.io/openfoodfacts/OpenFoodFacts-APIRestPython)
-[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/openfoodfacts/OpenFoodFacts-APIRestPython.svg)](http://isitmaintained.com/project/openfoodfacts/OpenFoodFacts-APIRestPython "Average time to resolve an issue")
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/openfoodfacts/OpenFoodFacts-APIRestPython.svg)](http://isitmaintained.com/project/openfoodfacts/OpenFoodFacts-APIRestPython "Percentage of issues still open")
+[![Build Status](https://travis-ci.org/openfoodfacts/OpenFoodFacts-APIRestPython.svg?branch=master)](https://travis-ci.org/openfoodfacts/OpenFoodFacts-APIRestPython) [![Stories in Ready](https://badge.waffle.io/openfoodfacts/OpenFoodFacts-APIRestPython.svg?label=ready&title=Ready)](https://waffle.io/openfoodfacts/OpenFoodFacts-APIRestPython)
+[![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/openfoodfacts/OpenFoodFacts-APIRestPython.svg)](https://isitmaintained.com/project/openfoodfacts/OpenFoodFacts-APIRestPython "Average time to resolve an issue")
+[![Percentage of issues still open](https://isitmaintained.com/badge/open/openfoodfacts/OpenFoodFacts-APIRestPython.svg)](https://isitmaintained.com/project/openfoodfacts/OpenFoodFacts-APIRestPython "Percentage of issues still open")
 
 ## What is this repository for?
 
@@ -32,7 +32,7 @@ This piece of software’s main goals are :
 * Install mongodb
 * Install pip
 * Install requirements : `$ pip install -r requirements.txt`
-* Download the database from : http://world.openfoodfacts.org/data/openfoodfacts-mongodbdump.tar.gz
+* Download the database from : https://world.openfoodfacts.org/data/openfoodfacts-mongodbdump.tar.gz
 * Import to local mongodb : `$ mongorestore -d off -c products /foldertobsonfile/products.bson`
 * Launch api : `$ python3 runApiRESTServer.py`
 * That's all !
@@ -69,7 +69,7 @@ q    =        | none             | search text on indexed fields
 
 ### Indexed fields
 
-Some fields are described here : http://world.openfoodfacts.org/data/data-fields.txt
+Some fields are described here : https://world.openfoodfacts.org/data/data-fields.txt
 
 ### Example
 **Request**
@@ -110,7 +110,7 @@ Some fields are described here : http://world.openfoodfacts.org/data/data-fields
       "labels_tags":[
          "en:gluten-free"
       ],
-      "image_small_url":"http://world.openfoodfacts.org/images/products/737/628/064/502/front.6.200.jpg",
+      "image_small_url":"https://world.openfoodfacts.org/images/products/737/628/064/502/front.6.200.jpg",
       "code":"737628064502",
       "additives_tags_n":null,
       "traces_tags":[
@@ -340,7 +340,7 @@ Some fields are described here : http://world.openfoodfacts.org/data/data-fields
       ],
       "ingredients_that_may_be_from_palm_oil_n":0,
       "ingredients_from_palm_oil_n":0,
-      "image_url":"http://world.openfoodfacts.org/images/products/737/628/064/502/front.6.400.jpg",
+      "image_url":"https://world.openfoodfacts.org/images/products/737/628/064/502/front.6.400.jpg",
       "ingredients":[
          {
             "text":"RICE NOODLES",
@@ -455,7 +455,7 @@ Some fields are described here : http://world.openfoodfacts.org/data/data-fields
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
-        http://www.apache.org/licenses/LICENSE-2.0
+        https://www.apache.org/licenses/LICENSE-2.0
 
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,

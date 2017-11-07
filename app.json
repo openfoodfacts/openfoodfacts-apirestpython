@@ -7,8 +7,8 @@
     "data",
     "open"
   ],
-  "website": "http://openfoodfacts.org/",
-  "logo": "http://openfoodfacts.org/images/misc/openfoodfacts-logo-356.png",
+  "website": "https://openfoodfacts.org/",
+  "logo": "https://openfoodfacts.org/images/misc/openfoodfacts-logo-356.png",
   "repository": "https://github.com/openfoodfacts/OpenFoodFacts-APIRestPython",
   "image": "heroku/python",
   "env": {
