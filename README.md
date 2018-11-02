@@ -77,7 +77,7 @@ Some fields are described here : https://world.openfoodfacts.org/data/data-field
     GET /product/737628064502
 
 **Return**
-> ``` json
+``` json
 {
    "status_verbose":"product found",
    "status":1,
