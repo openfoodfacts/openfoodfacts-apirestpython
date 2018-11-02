@@ -1,4 +1,4 @@
-# Open Food Facts API Rest Python #
+# Open Food Facts API Rest Python
 
 OFF API provides programmatic access to Open Food Facts functionality and content.<br/>
 
@@ -20,7 +20,7 @@ Currently, return format for all endpoints is [JSON](https://json.org/ "JSON").
 
 ## What is this repository for?
 
-This piece of software’s main goals are :
+This piece of software’s main goals are:
 * To make it easy to retrieve data using HTTP requests
 * To provide filters in the API
 * To provide custom filters
@@ -31,18 +31,18 @@ This piece of software’s main goals are :
 * Install python 3
 * Install mongodb
 * Install pip
-* Install requirements : `$ pip install -r requirements.txt`
+* Install requirements: `$ pip install -r requirements.txt`
 * Download the database from : https://world.openfoodfacts.org/data/openfoodfacts-mongodbdump.tar.gz
-* Import to local mongodb : `$ mongorestore -d off -c products /foldertobsonfile/products.bson`
-* Launch api : `$ python3 runApiRESTServer.py`
-* That's all !
+* Import to local mongodb: `$ mongorestore -d off -c products /foldertobsonfile/products.bson`
+* Launch api: `$ python3 runApiRESTServer.py`
+* That's all!
 
 ## Documentation
 ### How to use it?
 
-Simple filter : `/products?origins=United Kingdom` <br/>
-Complex filter : `/products?nutrition_grade_fr=a&origins=United Kingdom` <br/>
-For arrays, a “.” will be used as a separator like so : `/products?nutrient_levels.salt=low`
+Simple filter: `/products?origins=United Kingdom` <br/>
+Complex filter: `/products?nutrition_grade_fr=a&origins=United Kingdom` <br/>
+For arrays, a “.” will be used as a separator like so: `/products?nutrient_levels.salt=low`
 Searchs can be inexact like :`/products?ingredients_text=beef`<br/>
 It will retrieve tags like “beef braising steak”, “beef steak”...
 
@@ -51,11 +51,11 @@ It will retrieve tags like “beef braising steak”, “beef steak”...
 URL to query                   | Description
 ------------------------------ | ---------------------------
 <code>GET</code> `/product/<barcode>`           | Get a product by barcode eg. `/product/737628064502`
-<code>GET</code> `/products/brands`             | Return a list of `Brands`. If you want to query brands, to do for example an autocomplete field in ajax, query the API like : `/products/brands?query=Auch` or `/products/brands?query=Sains`.
-<code>GET</code> `/products/categories`         | Return a list of `Categories`. If you want to query categories, to do for example an autocomplete field in ajax, query the API like : `/products/categories?query=Ric` or `/products/categories?query=plant`.
-<code>GET</code> `/products/countries`          | Return a list of `Countries`. If you want to query countries, to do for example an autocomplete field in ajax, query the API like : `/products/countries?query=Fra` or `/products/countries?query=Aus`.
-<code>GET</code> `/products/additives`          | Return a list of `Additives`. If you want to query additives, to do for example an autocomplete field in ajax, query the API like : `/products/additives?query=Citric` or `/products/additives?query=acid`.
-<code>GET</code> `/products/allergens`          | Return a list of `Allergens`. If you want to query allergens, to do for example an autocomplete field in ajax, query the API like : `/products/allergens?query=milk` or `/products/allergens?query=oil`.
+<code>GET</code> `/products/brands`             | Return a list of `Brands`. If you want to query brands, to do for example an autocomplete field in ajax, query the API like: `/products/brands?query=Auch` or `/products/brands?query=Sains`.
+<code>GET</code> `/products/categories`         | Return a list of `Categories`. If you want to query categories, to do for example an autocomplete field in ajax, query the API like: `/products/categories?query=Ric` or `/products/categories?query=plant`.
+<code>GET</code> `/products/countries`          | Return a list of `Countries`. If you want to query countries, to do for example an autocomplete field in ajax, query the API like: `/products/countries?query=Fra` or `/products/countries?query=Aus`.
+<code>GET</code> `/products/additives`          | Return a list of `Additives`. If you want to query additives, to do for example an autocomplete field in ajax, query the API like: `/products/additives?query=Citric` or `/products/additives?query=acid`.
+<code>GET</code> `/products/allergens`          | Return a list of `Allergens`. If you want to query allergens, to do for example an autocomplete field in ajax, query the API like: `/products/allergens?query=milk` or `/products/allergens?query=oil`.
 
 ### Options
 
@@ -65,11 +65,11 @@ limit=        | 50               | limit the number of products returned
 skip=         | 0                | skips the specified number of products returned
 count=        | 0                | if 1 then returns the number of rows
 short=        | 0                | Filters rows retrieved, make it faster for lists for example, if 1 columns projection on `code`, `lang` and `product_name`
-q    =        | none             | search text on indexed fields
+q=            | none             | search text on indexed fields
 
 ### Indexed fields
 
-Some fields are described here : https://world.openfoodfacts.org/data/data-fields.txt
+Some fields are described here: https://world.openfoodfacts.org/data/data-fields.txt
 
 ### Example
 **Request**
