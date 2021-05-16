@@ -16,16 +16,6 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:11
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: database
-          POSTGRES_PORT: 5432
-        ports: ['5432:5432']
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -34,21 +24,6 @@ jobs:
       with:
         python-version: '3.8' # Version range or exact version of a Python version to use, using SemVer's version range syntax
         architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
-    # Note you can specify username, pass, and db name according to the action readme
-   # - uses: harmon758/postgresql-action@v1
-      # with:
-     #    postgresql version: '11'   See https://hub.docker.com/_/postgres for available versions
-     #    postgresql user: postgres
-     #    postgresql password: postgres
-     #    postgresql db: 'folksonomy'
-    - name: psycopg2 prerequisites
-      run: sudo apt-get install libpq-dev
-    - name: Create database
-      run: |
-         PGPASSWORD=postgres psql -U postgres -h 127.0.0.1 -d database -f ./db/db_setup.sql
-    - name: Install PostgreSQL client
-      run: |
-        sudo apt-get install --yes postgresql-client
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -62,12 +37,11 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     # Runs a single command using the runners shell
     - name: Test with pytest
-      env:
-        DATABASE_URL: 'postgres://postgres:postgres@localhost:5432/database'
-        PGUSER: "postgres"
-        PGPASSWORD: "postgres"
-        PGDB: "database"
-        PGPORT: 5432
-        PGURL: "localhost"
       run: |
         pytest
+    - name: Download the full OFF database
+      run: curl https://world.openfoodfacts.org/data/openfoodfacts-mongodbdump.tar.gz
+    - name: Import to local mongodb
+      run: mongorestore -d off -c products /foldertobsonfile/products.bson
+    - name: Launch API
+      run: python3 runApiRESTServer.py
