@@ -41,6 +41,10 @@ jobs:
         pytest
     - name: Download the full OFF database
       run: curl https://world.openfoodfacts.org/data/openfoodfacts-mongodbdump.tar.gz
+    - name: Start MongoDB
+      uses: supercharge/mongodb-github-action@1.4.0
+      with:
+        mongodb-version: 4.4
     - name: Import to local mongodb
       run: mongorestore -d off -c products /foldertobsonfile/products.bson
     - name: Launch API
