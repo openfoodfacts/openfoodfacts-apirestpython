@@ -10,4 +10,4 @@ pymongo==2.8
 pytz==2021.1
 six==1.9.0
 requests==2.25.1
-gunicorn==19.2.1
+gunicorn==19.5.0
