@@ -6,7 +6,7 @@ MarkupSafe==0.23
 Werkzeug==0.15.3
 aniso8601==0.92
 itsdangerous==0.24
-pymongo==2.8
+pymongo==4.0.1
 pytz==2021.1
 six==1.9.0
 requests==2.26.0
