@@ -14,7 +14,7 @@ Currently, return format for all endpoints is [JSON](https://json.org/ "JSON").
 
 
 [![Project Status](http://opensource.box.com/badges/active.svg)](http://opensource.box.com/badges)
-[![Build Status](https://travis-ci.org/openfoodfacts/OpenFoodFacts-APIRestPython.svg?branch=master)](https://travis-ci.org/openfoodfacts/OpenFoodFacts-APIRestPython) [![Stories in Ready](https://badge.waffle.io/openfoodfacts/OpenFoodFacts-APIRestPython.svg?label=ready&title=Ready)](https://waffle.io/openfoodfacts/OpenFoodFacts-APIRestPython)
+[![Build Status](https://travis-ci.org/openfoodfacts/OpenFoodFacts-APIRestPython.svg?branch=master)](https://travis-ci.org/openfoodfacts/OpenFoodFacts-APIRestPython)
 [![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/openfoodfacts/OpenFoodFacts-APIRestPython.svg)](https://isitmaintained.com/project/openfoodfacts/OpenFoodFacts-APIRestPython "Average time to resolve an issue")
 [![Percentage of issues still open](https://isitmaintained.com/badge/open/openfoodfacts/OpenFoodFacts-APIRestPython.svg)](https://isitmaintained.com/project/openfoodfacts/OpenFoodFacts-APIRestPython "Percentage of issues still open")
 
