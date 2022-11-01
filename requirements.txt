@@ -9,5 +9,5 @@ itsdangerous==0.24
 pymongo==2.8
 pytz==2022.6
 six==1.9.0
-requests==2.26.0
+requests==2.28.1
 gunicorn==19.5.0
