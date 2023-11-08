@@ -2,7 +2,7 @@ Flask==0.10.1
 Flask-PyMongo==0.3.1
 Flask-RESTful==0.3.9
 Jinja2==2.7.3
-MarkupSafe==0.23
+MarkupSafe==2.1.2
 Werkzeug==0.15.3
 aniso8601==0.92
 itsdangerous==0.24
