@@ -9,4 +9,4 @@ itsdangerous==2.2.0
 pymongo==4.19.0
 pytz==2026.6
 six==1.17.0
-gunicorn==20.1.0
+gunicorn==26.2.0
