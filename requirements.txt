@@ -3,7 +3,7 @@ Flask-PyMongo==3.0.1
 Flask-RESTful==0.3.10
 Jinja2==3.1.6
 MarkupSafe==3.0.4
-Werkzeug==2.0.2
+Werkzeug==3.1.9
 aniso8601==10.0.1
 itsdangerous==2.2.0
 pymongo==4.19.0
