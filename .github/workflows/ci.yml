@@ -5,13 +5,14 @@ name: CI
 permissions:
   contents: read
 
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
+# Controls when the action will run. Triggers the workflow on push to the
+# default branch or on pull requests. This avoids duplicate runs when a PR
+# is opened from a branch in this repo (which would otherwise trigger both
+# `push` and `pull_request`).
 on:
   push:
-    branches: [ '*' ]
+    branches: [ develop ]
   pull_request:
-    branches: [ '*' ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
