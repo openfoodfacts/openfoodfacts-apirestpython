@@ -4,7 +4,6 @@ from flask import request, abort, json
 import flask_restful as restful
 from flask_rest_service import app, api, mongo
 from bson.objectid import ObjectId
-from bson.code import Code
 
 # ----- /products -----
 class ProductsList(restful.Resource):
@@ -49,20 +48,20 @@ class ProductsList(restful.Resource):
         fieldsNeeded = {'code':1, 'lang':1, 'product_name':1}
         if request.args.get('short') and short == 1:
             if request.args.get('count') and count == 1 and not request.args.get('q'):
-                return mongo.db.products.find(data, fieldsNeeded).count()
+                return mongo.db.products.count_documents(data)
             elif not request.args.get('count') and not request.args.get('q'):
                 return mongo.db.products.find(data, fieldsNeeded).sort('created_t', pymongo.DESCENDING).skip(skip).limit(limit)
             elif request.args.get('count') and count == 1 and request.args.get('q'):
-                return mongo.db.products.find({ "$text" : { "$search": query } }, fieldsNeeded).count()
+                return mongo.db.products.count_documents({ "$text" : { "$search": query } })
             else:
                 return mongo.db.products.find({ "$text" : { "$search": query } }, fieldsNeeded).sort('created_t', pymongo.DESCENDING).skip(skip).limit(limit)
         else:
             if request.args.get('count') and count == 1 and not request.args.get('q'):
-                return mongo.db.products.find(data).count()
+                return mongo.db.products.count_documents(data)
             elif not request.args.get('count') and not request.args.get('q'):
                 return mongo.db.products.find(data).sort('created_t', pymongo.DESCENDING).skip(skip).limit(limit)
             elif request.args.get('count') and count == 1 and request.args.get('q'):
-                return mongo.db.products.find({ "$text" : { "$search": query } }).count()
+                return mongo.db.products.count_documents({ "$text" : { "$search": query } })
             else:
                 return mongo.db.products.find({ "$text" : { "$search": query } }).sort('created_t', pymongo.DESCENDING).skip(skip).limit(limit)
 
@@ -73,40 +72,41 @@ class ProductsStats(restful.Resource):
     # ----- GET Request -----
     def get(self):
 
-        map = Code("function () {"
-                        "   var date = new Date(this.created_t*1000);"
-                        "   var parsedDateMonth = date.getMonth();"
-                        "   var parsedDateYear = date.getFullYear();"
-                        "   var saltLevelsValue = null;"
-                        "   var fatLevelsValue = null;"
-                        "   var saturatedfatLevelsValue = null;"
-                        "   var sugarsLevelsValue = null;"
-                        "   if(!parsedDateYear || !parsedDateMonth) return;"
-                        "   if(this.hasOwnProperty('nutrient_levels')) {"
-                        "       saltLevelsValue = this.nutrient_levels.salt;"
-                        "       fatLevelsValue = this.nutrient_levels.fat;"
-                        "       saturatedfatLevelsValue = this['nutrient_levels']['saturated-fat'];"
-                        "       sugarsLevelsValue = this.nutrient_levels.sugars;"
-                        "   } else { saltLevelsValue = null; fatLevelsValue = null; saturatedfatLevelsValue = null, sugarsLevelsValue = null}"
-                        "   emit({year : parsedDateYear, month : parsedDateMonth, saltlevels : saltLevelsValue, fatlevels : fatLevelsValue, saturatedfatlevels : saturatedfatLevelsValue, sugarslevels : sugarsLevelsValue}, {count:1});"
-                        "};")
-
-        reduce = Code("function (key, values) {"
-                    "   var count = 0;"
-                    "   var ret = {count : 0};"
-                    "       for (index in values) {"
-                    "           ret.count += values[index].count;"
-                    "       }"
-                    "       return ret;"    
-                    "   };")
+        # Aggregation replacement for the old map_reduce (removed in
+        # PyMongo 4.0 and unsupported by MongoDB Server 5.0+).
+        # Buckets products by creation year/month and nutrient levels.
+        # Note: month is 1-based ($month); the old JS used 0-based
+        # getMonth() and additionally skipped January docs via a falsy
+        # check, which the dashboard's "%Y-%m" date parsing never
+        # supported anyway.
+        pipeline = [
+            {"$match": {"created_t": {"$type": "number"}}},
+            {"$project": {
+                "date": {"$toDate": {"$multiply": ["$created_t", 1000]}},
+                "saltlevels": {"$ifNull": ["$nutrient_levels.salt", None]},
+                "fatlevels": {"$ifNull": ["$nutrient_levels.fat", None]},
+                "saturatedfatlevels": {"$ifNull": ["$nutrient_levels.saturated-fat", None]},
+                "sugarslevels": {"$ifNull": ["$nutrient_levels.sugars", None]},
+            }},
+            {"$group": {
+                "_id": {
+                    "year": {"$year": "$date"},
+                    "month": {"$month": "$date"},
+                    "saltlevels": "$saltlevels",
+                    "fatlevels": "$fatlevels",
+                    "saturatedfatlevels": "$saturatedfatlevels",
+                    "sugarslevels": "$sugarslevels",
+                },
+                "count": {"$sum": 1},
+            }},
+        ]
 
         listRes = []
-        result = mongo.db.products.map_reduce(map, reduce, "stats_products")
-        for doc in result.find():
+        for doc in mongo.db.products.aggregate(pipeline):
             res = {}
             res['dateyear'] = doc['_id']['year']
             res['datemonth'] = doc['_id']['month']
-            res['count'] = doc['value']['count']
+            res['count'] = doc['count']
             res['saltlevels'] = doc['_id']['saltlevels']
             res['saturatedfatlevels'] = doc['_id']['saturatedfatlevels']
             res['sugarslevels'] = doc['_id']['sugarslevels']
@@ -133,23 +133,17 @@ class ProductsBrands(restful.Resource):
         query = request.args.get('query')
 
         if request.args.get('query'):
-            map = Code("function () {"
-                        "   if (!this.brands) return;"
-                        "   emit(this.brands.trim(), 1);"
-                        "};")
-
-            reduce = Code("function (key, values) {"
-                        "   var count = 0;"
-                        "       for (index in values) {"
-                        "           count += values[index];"
-                        "       }"
-                        "       return count;"    
-                        "   };")
-
-            result = mongo.db.products.map_reduce(map, reduce, "brands_products")
+            # Aggregation replacement for the old map_reduce over the
+            # 'brands' field (removed in PyMongo 4.0).
+            pipeline = [
+                {"$match": {"brands": {"$type": "string"}}},
+                {"$group": {"_id": {"$trim": {"input": "$brands"}}}},
+                {"$match": {"_id": {"$regex": query, "$options": "i"}}},
+                {"$sort": {"_id": 1}},
+            ]
 
             res = []
-            for doc in result.find({"_id": {'$regex' : query, '$options' : '-i'}}):
+            for doc in mongo.db.products.aggregate(pipeline):
                 res.append(doc['_id'])
             if request.args.get('count') and count == 1:
                 return len(res)
@@ -172,23 +166,17 @@ class ProductsCategories(restful.Resource):
         query = request.args.get('query')
 
         if request.args.get('query'):
-            map = Code("function () {"
-                        "   if (!this.categories) return;"
-                        "   emit(this.categories.trim(), 1);"
-                        "};")
-
-            reduce = Code("function (key, values) {"
-                        "   var count = 0;"
-                        "       for (index in values) {"
-                        "           count += values[index];"
-                        "       }"
-                        "       return count;"    
-                        "   };")
-
-            result = mongo.db.products.map_reduce(map, reduce, "categories_products")
+            # Aggregation replacement for the old map_reduce over the
+            # 'categories' field (removed in PyMongo 4.0).
+            pipeline = [
+                {"$match": {"categories": {"$type": "string"}}},
+                {"$group": {"_id": {"$trim": {"input": "$categories"}}}},
+                {"$match": {"_id": {"$regex": query, "$options": "i"}}},
+                {"$sort": {"_id": 1}},
+            ]
 
             res = []
-            for doc in result.find({"_id": {'$regex' : query, '$options' : '-i'}}):
+            for doc in mongo.db.products.aggregate(pipeline):
                 res.append(doc['_id'])
             if request.args.get('count') and count == 1:
                 return len(res)
@@ -211,23 +199,17 @@ class ProductsCountries(restful.Resource):
         query = request.args.get('query')
 
         if request.args.get('query'):
-            map = Code("function () {"
-                        "   if (!this.countries) return;"
-                        "   emit(this.countries.trim(), 1);"
-                        "};")
-
-            reduce = Code("function (key, values) {"
-                        "   var count = 0;"
-                        "       for (index in values) {"
-                        "           count += values[index];"
-                        "       }"
-                        "       return count;"    
-                        "   };")
-
-            result = mongo.db.products.map_reduce(map, reduce, "countries_products")
+            # Aggregation replacement for the old map_reduce over the
+            # 'countries' field (removed in PyMongo 4.0).
+            pipeline = [
+                {"$match": {"countries": {"$type": "string"}}},
+                {"$group": {"_id": {"$trim": {"input": "$countries"}}}},
+                {"$match": {"_id": {"$regex": query, "$options": "i"}}},
+                {"$sort": {"_id": 1}},
+            ]
 
             res = []
-            for doc in result.find({"_id": {'$regex' : query, '$options' : '-i'}}):
+            for doc in mongo.db.products.aggregate(pipeline):
                 res.append(doc['_id'])
             if request.args.get('count') and count == 1:
                 return len(res)
@@ -250,25 +232,22 @@ class ProductsAdditives(restful.Resource):
         query = request.args.get('query')
 
         if request.args.get('query'):
-            map = Code("function () {"
-                        "   if (!this.colours) return;"
-                        "   this.additives_tags.forEach(function (c){"
-                        "       emit(c.trim(), 1)"
-                        "   });"
-                        "};")
-
-            reduce = Code("function (key, values) {"
-                        "   var count = 0;"
-                        "       for (index in values) {"
-                        "           count += values[index];"
-                        "       }"
-                        "       return count;"    
-                        "   };")
-
-            result = mongo.db.products.map_reduce(map, reduce, "additives_products")
+            # Aggregation replacement for the old map_reduce over the
+            # 'additives_tags' array (removed in PyMongo 4.0).
+            # Note: the old JS guarded on `this.colours` (likely a
+            # copy-paste bug) while iterating `additives_tags`; the
+            # guard is intentionally not carried over.
+            pipeline = [
+                {"$match": {"additives_tags": {"$type": "array"}}},
+                {"$unwind": "$additives_tags"},
+                {"$match": {"additives_tags": {"$type": "string"}}},
+                {"$group": {"_id": {"$trim": {"input": "$additives_tags"}}}},
+                {"$match": {"_id": {"$regex": query, "$options": "i"}}},
+                {"$sort": {"_id": 1}},
+            ]
 
             res = []
-            for doc in result.find({"_id": {'$regex' : query, '$options' : '-i'}}):
+            for doc in mongo.db.products.aggregate(pipeline):
                 res.append(doc['_id'])
             if request.args.get('count') and count == 1:
                 return len(res)
@@ -291,25 +270,22 @@ class ProductsAllergens(restful.Resource):
         query = request.args.get('query')
 
         if request.args.get('query'):
-            map = Code("function () {"
-                        "   if (!this.colours) return;"
-                        "   this.allergens_tags.forEach(function (c){"
-                        "       emit(c.trim(), 1)"
-                        "   });"
-                        "};")
-
-            reduce = Code("function (key, values) {"
-                        "   var count = 0;"
-                        "       for (index in values) {"
-                        "           count += values[index];"
-                        "       }"
-                        "       return count;"    
-                        "   };")
-
-            result = mongo.db.products.map_reduce(map, reduce, "allergens_products")
+            # Aggregation replacement for the old map_reduce over the
+            # 'allergens_tags' array (removed in PyMongo 4.0).
+            # Note: the old JS guarded on `this.colours` (likely a
+            # copy-paste bug) while iterating `allergens_tags`; the
+            # guard is intentionally not carried over.
+            pipeline = [
+                {"$match": {"allergens_tags": {"$type": "array"}}},
+                {"$unwind": "$allergens_tags"},
+                {"$match": {"allergens_tags": {"$type": "string"}}},
+                {"$group": {"_id": {"$trim": {"input": "$allergens_tags"}}}},
+                {"$match": {"_id": {"$regex": query, "$options": "i"}}},
+                {"$sort": {"_id": 1}},
+            ]
 
             res = []
-            for doc in result.find({"_id": {'$regex' : query, '$options' : '-i'}}):
+            for doc in mongo.db.products.aggregate(pipeline):
                 res.append(doc['_id'])
             if request.args.get('count') and count == 1:
                 return len(res)
