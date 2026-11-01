@@ -24,7 +24,6 @@ function makeGraphs(error, productsJSON, statesJson) {
 
 	//Define Dimensions
 	var dateDim = ndx.dimension(function(d) { return d["date"]; });
-	var numberProductsDim = ndx.dimension(function(d) { return d["count"]; });
 	var saltLevelsProductsDim = ndx.dimension(function(d) { return d["saltlevels"]; });
 	var fatLevelsProductsDim = ndx.dimension(function(d) { return d["fatlevels"]; });
 	var saturatedFatLevelsProductsDim = ndx.dimension(function(d) { return d["saturatedfatlevels"]; });
@@ -37,7 +36,6 @@ function makeGraphs(error, productsJSON, statesJson) {
 	var numProductsSaturedFatLevels = saturatedFatLevelsProductsDim.group().reduceSum(function(d){return d.count;});
 	var numProductsSugarsLevels = sugarsLevelsProductsDim.group().reduceSum(function(d){return d.count;});
 
-	var all = ndx.groupAll();
 	var totalProducts = ndx.groupAll().reduceSum(function(d) {return d["count"];});
 
 	//Define values (to be used in charts)
