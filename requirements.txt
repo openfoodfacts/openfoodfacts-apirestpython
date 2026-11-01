@@ -1,5 +1,5 @@
 Flask==2.0.2
-Flask-PyMongo==2.3.0
+Flask-PyMongo==3.0.1
 Flask-RESTful==0.3.10
 Jinja2==3.1.6
 MarkupSafe==3.0.4
