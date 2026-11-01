@@ -71,7 +71,16 @@ jobs:
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Seed minimal fixture
-      run: python -c "from pymongo import MongoClient; c=MongoClient('mongodb://localhost:27017/'); c['off-fr'].products.insert_many([{'code':'737628064502','product_name':'Stir-Fry Rice Noodles','created_t':1345799269},{'code':'3017620422003','product_name':'Nutella','brands':'Ferrero','created_t':1345799270}])"
+      # NOTE: quoted heredoc ('EOF') so bash passes '$**' through literally;
+      # inside bash double quotes $** would expand to positional params + '*'
+      # and silently create a text index on a field named '*' instead.
+      run: |
+        python <<'EOF'
+        from pymongo import MongoClient
+        c = MongoClient('mongodb://localhost:27017/')
+        c['off-fr'].products.insert_many([{'code':'737628064502','product_name':'Stir-Fry Rice Noodles','brands':'Thai Kitchen','categories':'Rice Noodles','countries':'France','additives_tags':['en:e330'],'allergens_tags':['en:peanuts'],'nutrient_levels':{'salt':'high','fat':'moderate','saturated-fat':'low','sugars':'high'},'created_t':1345799269},{'code':'3017620422003','product_name':'Nutella','brands':'Ferrero','categories':'Spreads','countries':'France','additives_tags':['en:e322'],'allergens_tags':['en:milk','en:hazelnut'],'nutrient_levels':{'salt':'low','fat':'high','saturated-fat':'high','sugars':'high'},'created_t':1370000000},{'code':'12345678','product_name':'NoBrand Water','created_t':1400000000}])
+        c['off-fr'].products.create_index([('$**', 'text')])
+        EOF
     - name: Launch API in background
       run: nohup python runApiRESTServer.py > api.log 2>&1 & echo $! > api.pid
     - name: Smoke check
@@ -80,6 +89,22 @@ jobs:
         curl -sf http://localhost:5000/ | grep -q '"status": "OK"'
         curl -sf http://localhost:5000/product/737628064502 | grep -q 'Stir-Fry'
         curl -sf "http://localhost:5000/products?limit=1" | grep -q 'product_name'
+        # count_documents paths (Cursor.count was removed in PyMongo 4.0)
+        curl -sf "http://localhost:5000/products?count=1" | grep -q '[0-9]'
+        curl -sf "http://localhost:5000/products?short=1&count=1" | grep -q '[0-9]'
+        # aggregation paths (Collection.map_reduce was removed in PyMongo 4.0)
+        curl -sf http://localhost:5000/products/stats/info | grep -q 'dateyear'
+        curl -sf "http://localhost:5000/products/brands?query=Ferr" | grep -q 'Ferrero'
+        curl -sf "http://localhost:5000/products/categories?query=Nood" | grep -q 'Rice Noodles'
+        curl -sf "http://localhost:5000/products/countries?query=Fran" | grep -q 'France'
+        curl -sf "http://localhost:5000/products/additives?query=e33" | grep -q 'en:e330'
+        curl -sf "http://localhost:5000/products/allergens?query=milk" | grep -q 'en:milk'
+        curl -sf http://localhost:5000/products/brands | grep -q 'Ferrero'
+        # full-text paths ($text requires the '$**' text index from the seed step)
+        curl -sf "http://localhost:5000/products?q=Nutella" | grep -q 'Nutella'
+        curl -sf "http://localhost:5000/products?q=Nutella&count=1" | grep -q '[0-9]'
+        curl -sf "http://localhost:5000/products?short=1&q=Noodles" | grep -q 'Stir-Fry'
+        curl -sf "http://localhost:5000/products?short=1&q=Noodles&count=1" | grep -q '[0-9]'
     - name: Show API log on failure
       if: failure()
       run: cat api.log
